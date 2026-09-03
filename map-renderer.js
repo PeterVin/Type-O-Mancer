@@ -24,6 +24,11 @@
       image.alt = stage.name;
       mask.appendChild(image);
       node.appendChild(mask);
+      if (index > unlocked) {
+        node.disabled = true;
+        node.classList.add("locked");
+        node.setAttribute("aria-label", "Locked guardian");
+      }
       node.addEventListener("click", () => onStageSelect(index));
       worldMap.append(node);
     });

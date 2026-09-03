@@ -186,3 +186,11 @@ h1 {
   height: 100%;
   object-fit: fill;
 }
+
+.map-node.locked .site-mask img {
+  filter: brightness(0) contrast(180%);
+  opacity: 0.98;
+}
+.map-node.locked {
+  cursor: not-allowed;
+}
