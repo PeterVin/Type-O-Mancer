@@ -29,6 +29,11 @@
         node.classList.add("locked");
         node.setAttribute("aria-label", "Locked guardian");
       }
+      if (index === unlocked) {
+        node.classList.add("active");
+        node.setAttribute("aria-current", "step");
+        node.setAttribute("aria-label", "Current destination: " + stage.name);
+      }
       if (index < unlocked) {
         node.classList.add("done");
       }
