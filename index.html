@@ -5,5 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <noscript>
+      <p class="no-script-message">
+        Typeforge needs JavaScript to run the typing duel. Please enable
+        JavaScript and reload.
+      </p>
+    </noscript>
+    <main class="app-shell">
+      <section class="map-screen" id="map-screen" aria-labelledby="gameTitle">
+        <header class="game-header">
+          <div>
+            <p class="eyebrow">Type-O-Mancer</p>
+            <h1 class="game-title">Realms Run</h1>
+            <p class="subtitle">
+              Race every guardian. Type fast, stay accurate, and master the map.
+            </p>
+          </div>
+        </header>
+        <section class="loadout" aria-label="Battle settings">
+          <div class="loadout-item">
+            <span class="loadout-kicker">HERO LOADOUT</span>
+            <strong>Choose your difficulty</strong>
+          </div>
+          <div
+            class="difficulty-selector"
+            role="radiogroup"
+            aria-label="Difficulty"
+          >
+            <button
+              class="difficulty active"
+              data-difficulty="easy"
+              type="button"
+              role="radio"
+              aria-checked="true"
+            >
+              <span>Explorer</span>
+              <small>Slower, less precise rival</small>
+            </button>
+            <button
+              class="difficulty"
+              data-difficulty="medium"
+              type="button"
+              role="radio"
+              aria-checked="false"
+            >
+              <span>Knight</span>
+              <small>Balanced experience</small>
+            </button>
+            <button
+              class="difficulty"
+              data-difficulty="hard"
+              type="button"
+              role="radio"
+              aria-checked="false"
+            >
+              <span>Legend</span>
+              <small>Faster, more precise rival</small>
+            </button>
+          </div>
+        </section>
+        <section class="map-card" aria-label="Campaign map">
+          <div class="map-intro">
+            <div>
+              <span class="map-kicker">CAMPAIGN MAP</span>
+              <h2>The Five Realms</h2>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
 </html>
