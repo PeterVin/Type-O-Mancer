@@ -29,6 +29,9 @@
         node.classList.add("locked");
         node.setAttribute("aria-label", "Locked guardian");
       }
+      if (index < unlocked) {
+        node.classList.add("done");
+      }
       node.addEventListener("click", () => onStageSelect(index));
       worldMap.append(node);
     });
