@@ -6,6 +6,7 @@
   const { renderMap: renderCampaignMap } = window.TypeOMancerMap;
   let difficulty = "easy";
   let unlocked = 0;
+  let currentStage = 0;
 
   const difficultyButtons = document.querySelectorAll(".difficulty");
 
@@ -34,8 +35,7 @@
       stages: STAGES,
       unlocked,
       onStageSelect: (index) => {
-        $("#progressText").textContent =
-          "Selected stage: " + STAGES[index].name;
+        if (index == unlocked) startStage(index);
       },
     });
     $("#progressText").textContent =
@@ -44,6 +44,16 @@
       STAGES.length +
       " stages unlocked * Destination: " +
       STAGES[unlocked].name;
+  }
+
+  function startStage(index) {
+    currentStage = index;
+    const stage = STAGES[index];
+    $("#mapScreen").hidden = true;
+    $("#battleScreen").hidden = false;
+    $("#regionName").textContent = stage.region;
+    $("#stageName").textContent = stage.name;
+    $("#enemyName").textContent = stage.enemyName;
   }
 
   renderMap();

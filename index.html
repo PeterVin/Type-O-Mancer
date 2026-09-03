@@ -15,7 +15,7 @@
       </p>
     </noscript>
     <main class="app-shell">
-      <section class="map-screen" id="map-screen" aria-labelledby="gameTitle">
+      <section class="map-screen" id="mapScreen" aria-labelledby="gameTitle">
         <header class="game-header">
           <div>
             <p class="eyebrow">Type-O-Mancer</p>
@@ -76,7 +76,25 @@
             <p id="progressText"></p>
           </div>
           <div class="world-map" id="worldMap" aria-live="polite"></div>
+          <p class="map-hint">
+            Hidden enemies lurk in the shadows. Grey marks: defeated guardians.
+          </p>
         </section>
+      </section>
+      <section
+        class="battle-screen"
+        id="battleScreen"
+        hidden
+        aria-live="polite"
+      >
+        <header class="battle-topbar">
+          <div class="battle-location">
+            <span id="regionName"></span><strong id="stageName"></strong>
+          </div>
+        </header>
+        <div class="fighter-label enemy-label">
+          <span>GUARDIAN</span><strong id="enemyName"></strong>
+        </div>
       </section>
     </main>
     <script src="campaign-data.js"></script>
