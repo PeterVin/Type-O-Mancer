@@ -1,0 +1,150 @@
+:root {
+  --ink: #f4f7ff;
+  --muted: #a7afc7;
+  --line: #ffffff21;
+  --accent: #74efad;
+  --danger: #ff5d77;
+  --panel: #0b1022dd;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--ink);
+  background: #070a14;
+  font-family: Inter, system-ui, sans-serif;
+}
+button,
+input,
+textarea {
+  font: inherit;
+}
+button {
+  color: inherit;
+}
+button:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+.no-script-message {
+  margin: 0;
+  padding: 1rem;
+  color: #fff4c7;
+  background: #43220d;
+  text-align: center;
+}
+.app-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 88% 5%, #17614f, transparent 27%),
+    radial-gradient(circle at 10% 0, #253670, transparent 35%), #080b18;
+}
+.map-screen {
+  width: min(1400px, 100%);
+  margin: auto;
+  padding: clamp(22px, 4vw, 58px) clamp(16px, 4vw, 46px) 44px;
+}
+.game-header,
+.loadout,
+.map-intro,
+.battle-topbar,
+.battle-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.eyebrow,
+.loadout-kicker,
+.map-kicker {
+  margin: 0 0 5px;
+  color: var(--accent);
+  font:
+    800 0.7rem Orbitron,
+    sans-serif;
+  letter-spacing: 0.2em;
+}
+h1,
+h2,
+strong,
+.battle-location {
+  font-family: Orbitron, sans-serif;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(2.3rem, 5vw, 4.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  text-transform: uppercase;
+}
+.subtitle {
+  margin: 14px 0 0;
+  color: var(--muted);
+}
+.loadout {
+  margin: 36px 0 22px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+}
+.loadout-item {
+  min-width: 170px;
+  display: grid;
+  gap: 3px;
+}
+.loadout-item strong {
+  font-size: 0.82rem;
+}
+.difficulty-selector {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+}
+.difficulty {
+  flex: 1;
+  padding: 10px 13px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: #ffffff0d;
+  text-align: left;
+}
+.difficulty.active {
+  border-color: var(--accent);
+  background: #74efad1f;
+}
+.difficulty span,
+.difficulty small {
+  display: block;
+}
+.difficulty span {
+  font: 800 0.76rem Orbitron;
+}
+.difficulty small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+.map-card {
+  padding: 18px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: #040610bd;
+  box-shadow: 0 24px 70px #00000047;
+}
+.map-intro {
+  padding: 1px 2px 16px;
+}
+.map-intro h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.map-intro p {
+  margin: 0;
+  color: var(--muted);
+  font: 700 0.7rem Orbitron;
+}
