@@ -202,3 +202,17 @@ h1 {
     linear-gradient(45deg, transparent 44%, #b8bdc6 45% 51%, transparent 52%),
     linear-gradient(-45deg, transparent 44%, #b8bdc6 45% 51%, transparent 52%);
 }
+.map-node.active .site-mask img {
+  filter: drop-shadow(1px 0 0 #fff3b0) drop-shadow(-1px 0 0 #fff3b0)
+    drop-shadow(0 1px 0 #fff3b0) drop-shadow(0 -1px 0 #fff3b0)
+    drop-shadow(0 0 5px #ffd95a) drop-shadow(0 0 14px #e98508);
+  animation: site-aura-pulse 1.65s ease-in-out infinite;
+}
+@keyframes site-aura-pulse {
+  50% {
+    filter: drop-shadow(1px 0 0 #fff8cf) drop-shadow(-1px 0 0 #fff8cf)
+      drop-shadow(0 1px 0 #fff8cf) drop-shadow(0 -1px 0 #fff8cf)
+      drop-shadow(0 0 6px #ffe26d) drop-shadow(0 0 24px #e98508);
+    transform: scale(1.025);
+  }
+}
