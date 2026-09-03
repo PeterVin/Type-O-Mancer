@@ -152,3 +152,18 @@ h1 {
   color: var(--muted);
   font: 700 0.7rem Orbitron;
 }
+
+@font-face {
+  font-family: Orbitron;
+  src: url("fonts/Orbitron-VariableFont_wght.ttf") format("truetype");
+  font-display: swap;
+}
+
+.world-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.7778;
+  overflow: hidden;
+  border-radius: 18px;
+  background: url("assets/world-map/world-map.png") center / 100% 100% no-repeat;
+}
