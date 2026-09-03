@@ -7,6 +7,11 @@
   let difficulty = "easy";
   let unlocked = 0;
   let currentStage = 0;
+  let challenge = "";
+  let playerCursor = 0;
+  let playerCorrect = 0;
+  let playerMistakes = 0;
+  let finished = false;
 
   const difficultyButtons = document.querySelectorAll(".difficulty");
 
@@ -46,15 +51,74 @@
       STAGES[unlocked].name;
   }
 
+  function renderTyping(target, cursor) {
+    const restoreFocus = document.activeElement === $("#typingInput");
+    const input = target.id === "playerRune" ? $("#typingInput") : null;
+    const runes = document.createDocumentFragment();
+    Array.from(challenge).forEach((character, index) => {
+      const span = document.createElement("span");
+      span.className = "rune-char";
+      if (index < cursor) span.classList.add("correct");
+      if (index === cursor && !finished) span.classList.add("current");
+      if (character === " ") span.classList.add("space");
+      span.textContent = character;
+      runes.append(span);
+    });
+    if (input) target.replaceChildren(runes, input);
+    else target.replaceChildren(runes);
+    if (restoreFocus && !finished) $("#typingInput")?.focus();
+  }
+
+  function prepareBattle() {
+    playerCursor = 0;
+    playerCorrect = 0;
+    playerMistakes = 0;
+    finished = false;
+    $("#typingInput").value = "";
+    renderTyping($("#playerRune"), playerCursor);
+    $("#typingInput").focus();
+  }
+
   function startStage(index) {
     currentStage = index;
     const stage = STAGES[index];
+    challenge = stage.texts[Math.floor(Math.random() * stage.texts.length)];
+    console.log(challenge);
+
     $("#mapScreen").hidden = true;
     $("#battleScreen").hidden = false;
     $("#regionName").textContent = stage.region;
     $("#stageName").textContent = stage.name;
     $("#enemyName").textContent = stage.enemyName;
+    prepareBattle();
   }
+
+  $("#typingInput").addEventListener("keydown", (event) => {
+    if (
+      finished ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.altKey ||
+      event.key.length !== 1
+    )
+      return;
+
+    event.preventDefault();
+    if (event.key === challenge[playerCursor]) {
+      playerCursor++;
+      playerCorrect++;
+      renderTyping($("#playerRune"), playerCursor);
+      $("#battleStatus").textContent = "Correct key. Keep going.";
+      if (playerCursor === challenge.length) {
+        finished = true;
+        $("#battleStatus").textContent = "Victory!";
+      }
+    } else {
+      playerMistakes++;
+      $("#battleStatus").textContent =
+        "Wrong key. Try the current character again.";
+    }
+  });
 
   renderMap();
 })();
