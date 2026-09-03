@@ -2,7 +2,7 @@
   "use strict";
 
   const $ = (selector) => document.querySelector(selector);
-  const { DIFFICULTY_SETTINGS } = window.TypeOMancerCampaign;
+  const { DIFFICULTY_SETTINGS, STAGES } = window.TypeOMancerCampaign;
   let difficulty = "easy";
 
   const difficultyButtons = document.querySelectorAll(".difficulty");
@@ -26,5 +26,6 @@
     });
   });
 
-  $("#progressText").textContent = "Difficulty configuration ready";
+  $("#progressText").textContent =
+    "Campaign model ready: " + STAGES.length + " guardians";
 })();
