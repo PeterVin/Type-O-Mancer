@@ -92,9 +92,24 @@
             <span id="regionName"></span><strong id="stageName"></strong>
           </div>
         </header>
-        <div class="fighter-label enemy-label">
-          <span>GUARDIAN</span><strong id="enemyName"></strong>
+        <div class="battle-arena">
+          <div class="fighter-label enemy-label">
+            <span>GUARDIAN</span><strong id="enemyName"></strong>
+          </div>
         </div>
+        <section class="duel-panel">
+          <div class="typing-lane player-lane">
+            <div class="typing-box player-box" id="playerRune">
+              <textarea
+                id="typingInput"
+                aria-label="Type your spell here"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+              ></textarea>
+            </div>
+          </div>
+        </section>
       </section>
     </main>
     <script src="campaign-data.js"></script>
