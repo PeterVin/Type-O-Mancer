@@ -1,51 +1,46 @@
 :root {
+  color-scheme: dark;
   --ink: #f4f7ff;
   --muted: #a7afc7;
   --line: #ffffff21;
   --accent: #74efad;
   --danger: #ff5d77;
   --panel: #0b1022dd;
+  --mint: #65ffc7;
+  --gold: #ffd45f;
+  font-family: Orbitron, system-ui, sans-serif;
 }
 * {
   box-sizing: border-box;
 }
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 960px;
+  min-height: 100vh;
   color: var(--ink);
-  background: #070a14;
-  font-family: Inter, system-ui, sans-serif;
+  background: radial-gradient(circle at 15% 0, #1d3066, #080b17 48%, #052c29);
 }
 button,
-input,
 textarea {
   font: inherit;
 }
 button {
   color: inherit;
+  cursor: pointer;
 }
-button:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid #fff;
-  outline-offset: 3px;
+[hidden] {
+  display: none !important;
 }
 .no-script-message {
-  margin: 0;
-  padding: 1rem;
+  padding: 16px;
   color: #fff4c7;
   background: #43220d;
   text-align: center;
 }
 .app-shell {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at 88% 5%, #17614f, transparent 27%),
-    radial-gradient(circle at 10% 0, #253670, transparent 35%), #080b18;
-}
-.map-screen {
-  width: min(1400px, 100%);
-  margin: auto;
-  padding: clamp(22px, 4vw, 58px) clamp(16px, 4vw, 46px) 44px;
+  width: min(1440px, 96vw);
+  margin: 0 auto;
+  padding: 34px 0 50px;
 }
 .game-header,
 .loadout,
@@ -57,28 +52,26 @@ textarea:focus-visible {
   justify-content: space-between;
   gap: 18px;
 }
+.game-header {
+  min-height: 150px;
+}
 .eyebrow,
 .loadout-kicker,
 .map-kicker {
-  margin: 0 0 5px;
-  color: var(--accent);
-  font:
-    800 0.7rem Orbitron,
-    sans-serif;
+  color: var(--mint);
+  font-size: 0.75rem;
+  font-weight: 800;
   letter-spacing: 0.2em;
 }
 h1,
 h2,
-strong,
-.battle-location {
-  font-family: Orbitron, sans-serif;
+p {
+  margin-top: 0;
 }
 h1 {
-  margin: 0;
-  font-size: clamp(2.3rem, 5vw, 4.6rem);
-  line-height: 0.95;
+  margin-bottom: 8px;
+  font-size: clamp(2.7rem, 6vw, 5.8rem);
   letter-spacing: -0.06em;
-  text-transform: uppercase;
 }
 .subtitle {
   margin: 14px 0 0;
@@ -215,4 +208,45 @@ h1 {
       drop-shadow(0 0 6px #ffe26d) drop-shadow(0 0 24px #e98508);
     transform: scale(1.025);
   }
+}
+.duel-panel {
+  padding: 20px;
+}
+.typing-lane {
+  margin-top: 16px;
+}
+.player-box {
+  cursor: text;
+}
+#typingInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: 0;
+  outline: 0;
+  color: transparent;
+  caret-color: transparent;
+  background: transparent;
+}
+.typing-box {
+  position: relative;
+  min-height: 92px;
+  margin-top: 8px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: #030611;
+  line-height: 1.9;
+}
+.typing-box:focus-within {
+  border-color: #65ffc799;
+  box-shadow: 0 0 18px #43e8aa25;
+}
+.rune-char.correct {
+  color: var(--mint);
+}
+.rune-char.current {
+  border-bottom: 2px solid var(--gold);
 }
