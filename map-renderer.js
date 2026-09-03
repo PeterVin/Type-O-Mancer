@@ -1,0 +1,33 @@
+(() => {
+  "use strict";
+
+  const { ASSET_PATH, MAP_SITE_ARTWORK } = window.TypeOMancerCampaign;
+
+  function renderMap({ worldMap, stages, unlocked, onStageSelect }) {
+    worldMap.replaceChildren();
+
+    stages.forEach((stage, index) => {
+      const artwork = MAP_SITE_ARTWORK[index];
+      const node = document.createElement("button");
+      node.type = "button";
+      node.className = "map-node";
+      node.style.left = `${artwork.left}%`;
+      node.style.top = `${artwork.top}%`;
+      node.style.setProperty("--site-width", `${artwork.width}%`);
+      node.style.setProperty("--site-height", `${artwork.height}%`);
+      node.setAttribute("aria-label", stage.name);
+
+      const mask = document.createElement("span");
+      mask.className = "site-mask";
+      const image = document.createElement("img");
+      image.src = `${ASSET_PATH}/sites/${artwork.file}`;
+      image.alt = stage.name;
+      mask.appendChild(image);
+      node.appendChild(mask);
+      node.addEventListener("click", () => onStageSelect(index));
+      worldMap.append(node);
+    });
+  }
+
+  window.TypeOMancerMap = { renderMap };
+})();

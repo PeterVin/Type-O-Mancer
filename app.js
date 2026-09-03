@@ -3,7 +3,9 @@
 
   const $ = (selector) => document.querySelector(selector);
   const { DIFFICULTY_SETTINGS, STAGES } = window.TypeOMancerCampaign;
+  const { renderMap: renderCampaignMap } = window.TypeOMancerMap;
   let difficulty = "easy";
+  let unlocked = 0;
 
   const difficultyButtons = document.querySelectorAll(".difficulty");
 
@@ -26,6 +28,23 @@
     });
   });
 
-  $("#progressText").textContent =
-    "Campaign model ready: " + STAGES.length + " guardians";
+  function renderMap() {
+    renderCampaignMap({
+      worldMap: $("#worldMap"),
+      stages: STAGES,
+      unlocked,
+      onStageSelect: (index) => {
+        $("#progressText").textContent =
+          "Selected stage: " + STAGES[index].name;
+      },
+    });
+    $("#progressText").textContent =
+      String(unlocked + 1) +
+      " / " +
+      STAGES.length +
+      " stages unlocked * Destination: " +
+      STAGES[unlocked].name;
+  }
+
+  renderMap();
 })();
