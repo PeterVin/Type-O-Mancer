@@ -1,6 +1,8 @@
 (() => {
   "use strict";
 
+  const ASSET_PATH = "assets";
+
   const DIFFICULTY_SETTINGS = {
     easy: { modifier: -6, errorModifier: 0.08 },
     medium: { modifier: 4, errorModifier: 0 },
@@ -205,5 +207,118 @@
     },
   ];
 
-  window.TypeOMancerCampaign = { DIFFICULTY_SETTINGS, STAGES };
+  const MAP_SITE_ARTWORK = [
+    {
+      file: "Troll_Hollow.png",
+      left: 13.09809,
+      top: 7.86397,
+      width: 10.46651,
+      height: 23.80446,
+    },
+    {
+      file: "Ogre_Fort.png",
+      left: 24.58134,
+      top: 6.16366,
+      width: 9.92823,
+      height: 25.0797,
+    },
+    {
+      file: "Dragon_Lair.png",
+      left: 37.26077,
+      top: 3.61318,
+      width: 10.34689,
+      height: 27.84272,
+    },
+    {
+      file: "Kobold_Camp.png",
+      left: 52.15311,
+      top: 10.62699,
+      width: 10.82536,
+      height: 19.87248,
+    },
+    {
+      file: "Yeti_Pass.png",
+      left: 65.43062,
+      top: 4.03826,
+      width: 11.36364,
+      height: 27.2051,
+    },
+    {
+      file: "Shaman_Circle.png",
+      left: 80.44258,
+      top: 9.77683,
+      width: 11.60287,
+      height: 22.31668,
+    },
+    {
+      file: "Dwarven_Stronghold.png",
+      left: 83.07416,
+      top: 40.06376,
+      width: 12.08134,
+      height: 23.37938,
+    },
+    {
+      file: "Elven_Glade.png",
+      left: 67.46411,
+      top: 37.93836,
+      width: 10.76555,
+      height: 26.24867,
+    },
+    {
+      file: "Golden_Dragon_Roost.png",
+      left: 49.70096,
+      top: 36.0255,
+      width: 12.97847,
+      height: 26.78002,
+    },
+    {
+      file: "Warriors_Watch.png",
+      left: 34.0311,
+      top: 36.13177,
+      width: 11.60287,
+      height: 27.63018,
+    },
+    {
+      file: "Zealots_Altar.png",
+      left: 18.89952,
+      top: 37.83209,
+      width: 10.58612,
+      height: 24.86716,
+    },
+    {
+      file: "Angels_Grace.png",
+      left: 2.21292,
+      top: 35.38789,
+      width: 11.42344,
+      height: 27.52391,
+    },
+    {
+      file: "Gamer_Lair.png",
+      left: 6.39952,
+      top: 68.43783,
+      width: 17.82297,
+      height: 27.63018,
+    },
+    {
+      file: "Scribe_Headquarters.png",
+      left: 30.26316,
+      top: 64.08077,
+      width: 20.39474,
+      height: 30.81828,
+    },
+    {
+      file: "Digital_Overlord.png",
+      left: 62.67943,
+      top: 60.7864,
+      width: 15.72967,
+      height: 33.79384,
+    },
+  ];
+
+  window.TypeOMancerCampaign = {
+    ASSET_PATH,
+    DIFFICULTY_SETTINGS,
+    STAGES,
+    MAP_SITE_ARTWORK,
+  };
 })();
