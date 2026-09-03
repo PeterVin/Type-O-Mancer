@@ -194,3 +194,11 @@ h1 {
 .map-node.locked {
   cursor: not-allowed;
 }
+.map-node.done .site-mask::after {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  background:
+    linear-gradient(45deg, transparent 44%, #b8bdc6 45% 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 44%, #b8bdc6 45% 51%, transparent 52%);
+}
