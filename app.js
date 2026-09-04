@@ -79,13 +79,19 @@
   }
 
   function prepareBattle() {
+    stopClock();
     playerCursor = 0;
     playerCorrect = 0;
     playerMistakes = 0;
+    running = false;
     finished = false;
+    elapsed = 0;
+    botCursor = 0;
     $("#typingInput").value = "";
+    $("#timer").textContent = "00:00";
     renderTyping($("#playerRune"), playerCursor);
     renderTyping($("#enemyRune"), botCursor);
+    updateStats();
     $("#typingInput").focus();
   }
 
@@ -93,14 +99,11 @@
     currentStage = index;
     const stage = STAGES[index];
     challenge = stage.texts[Math.floor(Math.random() * stage.texts.length)];
-    elapsed = 0;
-
     $("#mapScreen").hidden = true;
     $("#battleScreen").hidden = false;
     $("#regionName").textContent = stage.region;
     $("#stageName").textContent = stage.name;
     $("#enemyName").textContent = stage.enemyName;
-    $("#timer").textContent = "00:00";
     prepareBattle();
   }
 
