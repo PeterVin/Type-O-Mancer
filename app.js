@@ -81,6 +81,7 @@
     finished = false;
     $("#typingInput").value = "";
     renderTyping($("#playerRune"), playerCursor);
+    renderTyping($("#enemyRune"), botCursor);
     $("#typingInput").focus();
   }
 
