@@ -123,6 +123,13 @@
     return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
   }
 
+  function letterSpan(char, className = "") {
+    const span = document.createElement("span");
+    span.className = `rune-char${char === " " ? " space" : ""}${className ? ` ${className}` : ""}`;
+    span.textContent = char;
+    return span;
+  }
+
   function botProfile() {
     const tier = Math.floor(currentStage / 3);
     return {
@@ -137,18 +144,34 @@
     };
   }
 
+  function renderBot(errorAt = -1) {
+    $("#enemyRune").replaceChildren();
+    [...challenge].forEach((char, index) => {
+      const state =
+        index < botCursor
+          ? "correct"
+          : index === botCursor
+            ? errorAt === index
+              ? "wrong"
+              : "current"
+            : "";
+      $("#enemyRune").append(letterSpan(char, state));
+    });
+  }
+
   function scheduleBot(delay) {
     botTimer = window.setTimeout(() => {
       if (!running || finished || botStunned) return;
       const profile = botProfile();
       if (Math.random() < profile.errorRate && challenge[botCursor] !== " ") {
         $("#enemyState").textContent = "Mistake! Correcting...";
+        renderBot(botCursor);
         botTimer = window.setTimeout(() => scheduleBot(60), profile.correction);
         return;
       }
       $("#enemyState").textContent = "I will crush you!";
       botCursor += 1;
-      renderTyping($("#enemyRune"), botCursor);
+      renderBot();
       updateStats();
       if (botCursor >= challenge.length) {
         finished = true;
