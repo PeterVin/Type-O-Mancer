@@ -280,5 +280,13 @@
     }
   });
 
+  $("#restartBattle").addEventListener("click", prepareBattle);
+  $("#leaveBattle").addEventListener("click", () => {
+    stopClock();
+    $("#battleScreen").hidden = true;
+    $("#mapScreen").hidden = false;
+    renderMap();
+  });
+
   renderMap();
 })();
