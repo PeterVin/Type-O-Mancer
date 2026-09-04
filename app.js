@@ -59,7 +59,7 @@
       STAGES[unlocked].name;
   }
 
-  function renderTyping(target, cursor) {
+  function renderTyping(target, cursor, errorAt = -1) {
     const restoreFocus = document.activeElement === $("#typingInput");
     const input = target.id === "playerRune" ? $("#typingInput") : null;
     const runes = document.createDocumentFragment();
@@ -67,7 +67,8 @@
       const span = document.createElement("span");
       span.className = "rune-char";
       if (index < cursor) span.classList.add("correct");
-      if (index === cursor && !finished) span.classList.add("current");
+      if (index === cursor && errorAt === index) span.classList.add("wrong");
+      else if (index === cursor && !finished) span.classList.add("current");
       if (character === " ") span.classList.add("space");
       span.textContent = character;
       runes.append(span);
@@ -228,6 +229,7 @@
       }
     } else {
       playerMistakes++;
+      renderTyping($("#playerRune"), playerCursor, playerCursor);
       $("#battleStatus").textContent =
         "Wrong key. Try the current character again.";
     }

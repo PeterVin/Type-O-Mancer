@@ -253,7 +253,6 @@ h1 {
 }
 .rune-char.wrong {
   color: var(--danger);
-  text-decoration: line-through;
 }
 .wpm-badge {
   position: absolute;
