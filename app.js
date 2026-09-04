@@ -10,9 +10,12 @@
   let playerCursor = 0;
   let playerCorrect = 0;
   let playerMistakes = 0;
+  let playerStunned = false;
+  let playerStunTimer = null;
   let botCursor = 0;
   let botTimer = null;
   let botStunned = false;
+  let botStunTimer = null;
   let elapsed = 0;
   let challenge = "";
   let winScores = {};
@@ -87,6 +90,10 @@
     finished = false;
     elapsed = 0;
     botCursor = 0;
+    playerStunned = false;
+    botStunned = false;
+    window.clearTimeout(playerStunTimer);
+    window.clearTimeout(botStunTimer);
     $("#typingInput").value = "";
     $("#timer").textContent = "00:00";
     renderTyping($("#playerRune"), playerCursor);
@@ -175,14 +182,22 @@
     });
   }
 
+  function stunBot(delay) {
+    renderBot(botCursor);
+    botStunned = true;
+    $("#enemyState").textContent = "Mistake! Correcting...";
+    botStunTimer = window.setTimeout(() => {
+      botStunned = false;
+      scheduleBot(60);
+    }, delay);
+  }
+
   function scheduleBot(delay) {
     botTimer = window.setTimeout(() => {
       if (!running || finished || botStunned) return;
       const profile = botProfile();
       if (Math.random() < profile.errorRate && challenge[botCursor] !== " ") {
-        $("#enemyState").textContent = "Mistake! Correcting...";
-        renderBot(botCursor);
-        botTimer = window.setTimeout(() => scheduleBot(60), profile.correction);
+        stunBot(profile.correction);
         return;
       }
       $("#enemyState").textContent = "I will crush you!";
@@ -218,9 +233,22 @@
     botTimer = null;
   }
 
+  function stunPlayer() {
+    playerStunned = true;
+    $("#playerState").textContent = "Dizzy! Recovering for 2 seconds...";
+    window.clearTimeout(playerStunTimer);
+    playerStunTimer = window.setTimeout(() => {
+      if (finished) return;
+      playerStunned = false;
+      $("#playerState").textContent = "Recovered. Keep typing.";
+      $("#typingInput").focus();
+    }, 2000);
+  }
+
   $("#typingInput").addEventListener("keydown", (event) => {
     if (
       finished ||
+      playerStunned ||
       event.ctrlKey ||
       event.metaKey ||
       event.altKey ||
@@ -233,10 +261,10 @@
     if (event.key === challenge[playerCursor]) {
       playerCursor++;
       playerCorrect++;
+      $("#playerState").textContent = "Keep typing.";
       updateStats();
 
       renderTyping($("#playerRune"), playerCursor);
-      $("#battleStatus").textContent = "Correct key. Keep going.";
       if (playerCursor === challenge.length) {
         finished = true;
         stopClock();
@@ -245,8 +273,7 @@
     } else {
       playerMistakes++;
       renderTyping($("#playerRune"), playerCursor, playerCursor);
-      $("#battleStatus").textContent =
-        "Wrong key. Try the current character again.";
+      stunPlayer();
     }
   });
 
