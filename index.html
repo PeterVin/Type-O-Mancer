@@ -89,11 +89,14 @@
         aria-live="polite"
       >
         <header class="battle-topbar">
+          <button class="text-button" id="leaveBattle" type="button">
+            &#x2190; Map
+          </button>
           <div class="battle-location">
             <span id="regionName"></span><strong id="stageName"></strong>
           </div>
           <div class="timer-box">
-            <span>&#x231B; TIME<strong id="timer">00:00</strong></span>
+            <span>&#x231B; TIME <strong id="timer">00:00</strong></span>
           </div>
         </header>
         <div class="battle-arena">
@@ -155,7 +158,12 @@
               ></textarea>
             </div>
           </div>
-          <span id="battleStatus">Mistakes cause a 2-second stun.</span>
+          <div class="battle-actions">
+            <button class="secondary-button" id="restartBattle" type="button">
+              Restart duel
+            </button>
+            <span id="battleStatus">Mistakes cause a 2-second stun.</span>
+          </div>
         </section>
       </section>
     </main>
