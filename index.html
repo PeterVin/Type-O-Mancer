@@ -166,6 +166,27 @@
           </div>
         </section>
       </section>
+      <div class="modal-backdrop" id="resultModal" hidden>
+        <section
+          class="result-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="resultTitle"
+        >
+          <span class="result-rune" id="resultRune">&#x2726;</span>
+          <p class="eyebrow" id="resultEyebrow">VICTORY</p>
+          <h2 id="resultTitle">Guardian defeated!</h2>
+          <p id="resultCopy"></p>
+          <div class="result-actions">
+            <button class="primary-button" id="nextStage" type="button">
+              Next destination
+            </button>
+            <button class="secondary-button" id="backToMap" type="button">
+              Return to map
+            </button>
+          </div>
+        </section>
+      </div>
     </main>
     <script src="campaign-data.js"></script>
     <script src="map-renderer.js"></script>
