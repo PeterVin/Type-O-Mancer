@@ -77,7 +77,8 @@
           </div>
           <div class="world-map" id="worldMap" aria-live="polite"></div>
           <p class="map-hint">
-            Hidden enemies lurk in the shadows. Grey marks: defeated guardians.
+            Gold outline: your current destination. Hidden enemies lurk in the
+            shadows. Grey marks: defeated guardians.
           </p>
         </section>
       </section>
@@ -96,9 +97,31 @@
           </div>
         </header>
         <div class="battle-arena">
-          <div class="fighter-label enemy-label">
-            <span>GUARDIAN</span><strong id="enemyName"></strong>
-          </div>
+          <section class="fighter player-fighter">
+            <div class="fighter-label">
+              <span>YOU</span><strong>Keyboard Knight</strong>
+            </div>
+            <div class="health-line">
+              <span class="healt-title">VITALITY</span>
+              <div class="health-bar player-health">
+                <span id="playerHealthFill"></span>
+              </div>
+              <small id="playerHealthText">100%</small>
+            </div>
+          </section>
+          <div class="versus" aria-hidden="true">VS</div>
+          <section class="fighter enemy-fighter">
+            <div class="fighter-label enemy-label">
+              <span>GUARDIAN</span><strong id="enemyName"></strong>
+            </div>
+            <div class="health-line">
+              <span class="healt-title">VITALITY</span>
+              <div class="health-bar enemy-health">
+                <span id="enemyHealthFill"></span>
+              </div>
+              <small id="enemyHealthText">100%</small>
+            </div>
+          </section>
         </div>
         <section class="duel-panel">
           <div class="battle-stats">
