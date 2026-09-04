@@ -28,6 +28,13 @@ button {
   color: inherit;
   cursor: pointer;
 }
+.secondary-button,
+.text-button {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 17px;
+  background: #141a2c;
+}
 [hidden] {
   display: none !important;
 }
