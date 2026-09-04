@@ -7,15 +7,17 @@
   let difficulty = "easy";
   let unlocked = 0;
   let currentStage = 0;
-  let challenge = "";
   let playerCursor = 0;
-  let running = false;
-  let elapsed = 0;
-  let clock = null;
   let playerCorrect = 0;
   let playerMistakes = 0;
+  let botCursor = 0;
+  let botTimer = null;
+  let elapsed = 0;
+  let challenge = "";
   let winScores = {};
+  let running = false;
   let finished = false;
+  let clock = null;
 
   const difficultyButtons = document.querySelectorAll(".difficulty");
 
@@ -112,6 +114,29 @@
 
   function formatTime(total) {
     return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
+  }
+
+  function botProfile() {
+    return {
+      wpm: 24 + currentStage * 3 + DIFFICULTY_SETTINGS[difficulty].modifier,
+    };
+  }
+
+  function scheduleBot(delay) {
+    botTimer = window.setTimeout(() => {
+      if (!running || finished) return;
+      const profile = botProfile();
+      botCursor += 1;
+      renderTyping($("#enemyRune"), botCursor);
+      updateStats();
+      if (botCursor >= challenge.length) {
+        finished = true;
+        $("#battleStatus").textContent = "The guardian finished first.";
+        stopClock();
+        return;
+      }
+      scheduleBot(Math.max(45, Math.round(60000 / (profile.wpm * 5))));
+    }, delay);
   }
 
   function startClock() {
