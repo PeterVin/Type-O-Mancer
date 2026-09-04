@@ -248,7 +248,6 @@
   $("#typingInput").addEventListener("keydown", (event) => {
     if (
       finished ||
-      playerStunned ||
       event.ctrlKey ||
       event.metaKey ||
       event.altKey ||
@@ -257,7 +256,11 @@
       return;
 
     event.preventDefault();
+
+    if (playerStunned) return;
+
     startClock();
+
     if (event.key === challenge[playerCursor]) {
       playerCursor++;
       playerCorrect++;
