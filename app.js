@@ -102,14 +102,20 @@
     prepareBattle();
   }
 
+  function currentWpm(value) {
+    return elapsed ? Math.round(playerCorrect / 5 / (value / 60)) : 0;
+  }
+
   function updateStats() {
     const attemts = playerCorrect + playerMistakes;
     const accuracy = attemts
       ? Math.round((playerCorrect / attemts) * 100)
       : 100;
-    const wpm = elapsed ? Math.round(playerCorrect / 5 / (elapsed / 60)) : 0;
+    const wpm = currentWpm(playerCorrect);
+    const pcWpm = currentWpm(botCursor);
     $("#accuracy").textContent = `${accuracy}%`;
     $("#wpm").textContent = `${wpm} WPM`;
+    $("#pcWpm").textContent = `${pcWpm} WPM`;
   }
 
   function formatTime(total) {
@@ -147,12 +153,15 @@
       $("#timer").textContent = formatTime(elapsed);
       updateStats();
     }, 1000);
+    scheduleBot(200);
   }
 
   function stopClock() {
     running = false;
     window.clearInterval(clock);
     clock = null;
+    window.clearInterval(botTimer);
+    botTimer = null;
   }
 
   $("#typingInput").addEventListener("keydown", (event) => {
