@@ -251,3 +251,15 @@ h1 {
 .rune-char.current {
   border-bottom: 2px solid var(--gold);
 }
+.wpm-badge {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: 43%;
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: #050913e8;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}

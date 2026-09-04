@@ -3,7 +3,7 @@
 
   const { ASSET_PATH, MAP_SITE_ARTWORK } = window.TypeOMancerCampaign;
 
-  function renderMap({ worldMap, stages, unlocked, onStageSelect }) {
+  function renderMap({ worldMap, stages, unlocked, winScores, onStageSelect }) {
     worldMap.replaceChildren();
 
     stages.forEach((stage, index) => {
@@ -36,6 +36,10 @@
       }
       if (index < unlocked) {
         node.classList.add("done");
+        const badge = document.createElement("span");
+        badge.className = "wpm-badge";
+        badge.textContent = `${winScores[index] || "-"} WPM`;
+        node.append(badge);
       }
       node.addEventListener("click", () => onStageSelect(index));
       worldMap.append(node);

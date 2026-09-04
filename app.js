@@ -12,6 +12,7 @@
   let startTime = null;
   let playerCorrect = 0;
   let playerMistakes = 0;
+  let winScores = {};
   let finished = false;
 
   const difficultyButtons = document.querySelectorAll(".difficulty");
@@ -40,6 +41,7 @@
       worldMap: $("#worldMap"),
       stages: STAGES,
       unlocked,
+      winScores,
       onStageSelect: (index) => {
         if (index == unlocked) startStage(index);
       },
