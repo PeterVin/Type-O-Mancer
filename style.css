@@ -45,6 +45,7 @@ button {
 .game-header,
 .loadout,
 .map-intro,
+.battle-stats,
 .battle-topbar,
 .battle-actions {
   display: flex;
