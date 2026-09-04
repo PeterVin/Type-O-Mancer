@@ -9,7 +9,9 @@
   let currentStage = 0;
   let challenge = "";
   let playerCursor = 0;
-  let startTime = null;
+  let running = false;
+  let elapsed = 0;
+  let clock = null;
   let playerCorrect = 0;
   let playerMistakes = 0;
   let winScores = {};
@@ -86,13 +88,14 @@
     currentStage = index;
     const stage = STAGES[index];
     challenge = stage.texts[Math.floor(Math.random() * stage.texts.length)];
-    console.log(challenge);
+    elapsed = 0;
 
     $("#mapScreen").hidden = true;
     $("#battleScreen").hidden = false;
     $("#regionName").textContent = stage.region;
     $("#stageName").textContent = stage.name;
     $("#enemyName").textContent = stage.enemyName;
+    $("#timer").textContent = "00:00";
     prepareBattle();
   }
 
@@ -101,12 +104,29 @@
     const accuracy = attemts
       ? Math.round((playerCorrect / attemts) * 100)
       : 100;
-    const elapsedSeconds = startTime ? (Date.now() - startTime) / 1000 : 0;
-    const wpm = elapsedSeconds
-      ? Math.round(playerCorrect / 5 / (elapsedSeconds / 60))
-      : 0;
+    const wpm = elapsed ? Math.round(playerCorrect / 5 / (elapsed / 60)) : 0;
     $("#accuracy").textContent = `${accuracy}%`;
     $("#wpm").textContent = `${wpm} WPM`;
+  }
+
+  function formatTime(total) {
+    return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
+  }
+
+  function startClock() {
+    if (running) return;
+    running = true;
+    clock = window.setInterval(() => {
+      elapsed++;
+      $("#timer").textContent = formatTime(elapsed);
+      updateStats();
+    }, 1000);
+  }
+
+  function stopClock() {
+    running = false;
+    window.clearInterval(clock);
+    clock = null;
   }
 
   $("#typingInput").addEventListener("keydown", (event) => {
@@ -120,17 +140,17 @@
       return;
 
     event.preventDefault();
-    if (startTime === null) {
-      startTime = Date.now();
-    }
-    updateStats();
+    startClock();
     if (event.key === challenge[playerCursor]) {
       playerCursor++;
       playerCorrect++;
+      updateStats();
+
       renderTyping($("#playerRune"), playerCursor);
       $("#battleStatus").textContent = "Correct key. Keep going.";
       if (playerCursor === challenge.length) {
         finished = true;
+        stopClock();
         $("#battleStatus").textContent = "Victory!";
       }
     } else {
