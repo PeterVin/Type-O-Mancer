@@ -121,6 +121,18 @@
     $("#accuracy").textContent = `${accuracy}%`;
     $("#wpm").textContent = `${wpm} WPM`;
     $("#pcWpm").textContent = `${pcWpm} WPM`;
+    const enemyHealth = Math.max(
+      0,
+      100 - Math.round((playerCursor / challenge.length) * 100),
+    );
+    const playerHealth = Math.max(
+      0,
+      100 - Math.round((botCursor / challenge.length) * 100),
+    );
+    $("#enemyHealthFill").style.width = `${enemyHealth}%`;
+    $("#enemyHealthText").textContent = `${enemyHealth}%`;
+    $("#playerHealthFill").style.width = `${playerHealth}%`;
+    $("#playerHealthText").textContent = `${playerHealth}%`;
   }
 
   function formatTime(total) {
