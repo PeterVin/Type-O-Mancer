@@ -115,7 +115,7 @@
   }
 
   function currentWpm(value) {
-    return elapsed ? Math.round(playerCorrect / 5 / (value / 60)) : 0;
+    return elapsed ? Math.round(value / 5 / (elapsed / 60)) : 0;
   }
 
   function updateStats() {
