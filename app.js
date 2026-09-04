@@ -205,9 +205,7 @@
       renderBot();
       updateStats();
       if (botCursor >= challenge.length) {
-        finished = true;
-        $("#battleStatus").textContent = "The guardian finished first.";
-        stopClock();
+        endBattle(false);
         return;
       }
       scheduleBot(Math.max(45, Math.round(60000 / (profile.wpm * 5))));
@@ -269,9 +267,7 @@
 
       renderTyping($("#playerRune"), playerCursor);
       if (playerCursor === challenge.length) {
-        finished = true;
-        stopClock();
-        $("#battleStatus").textContent = "Victory!";
+        endBattle(true);
       }
     } else {
       playerMistakes++;
@@ -280,12 +276,52 @@
     }
   });
 
+  function endBattle(victory) {
+    if (finished) return;
+    finished = true;
+    stopClock();
+    const stage = STAGES[currentStage];
+    const score = currentWpm(playerCorrect);
+    if (victory) {
+      winScores[currentStage] = Math.max(winScores[currentStage] || 0, score);
+      unlocked = Math.max(
+        unlocked,
+        Math.min(currentStage + 1, STAGES.length - 1),
+      );
+    }
+    $("#resultEyebrow").textContent = victory ? "VICTORY" : "RACE LOST";
+    $("#resultTitle").textContent = victory
+      ? `${stage.name} defeated!`
+      : `${stage.name} finished first!`;
+    $("#resultCopy").textContent = victory
+      ? `${stage.win} Winning speed: ${score} WPM.`
+      : "Restart the duel and protect your rhythm.";
+    $("#nextStage").hidden = !victory;
+    $("#resultModal").hidden = false;
+  }
+
   $("#restartBattle").addEventListener("click", prepareBattle);
   $("#leaveBattle").addEventListener("click", () => {
     stopClock();
     $("#battleScreen").hidden = true;
     $("#mapScreen").hidden = false;
     renderMap();
+  });
+
+  $("#backToMap").addEventListener("click", () => {
+    $("#resultModal").hidden = true;
+    $("#battleScreen").hidden = true;
+    $("#mapScreen").hidden = false;
+    renderMap();
+  });
+  $("#nextStage").addEventListener("click", () => {
+    $("#resultModal").hidden = true;
+    if (currentStage < STAGES.length - 1) startStage(currentStage + 1);
+    else {
+      $("#battleScreen").hidden = true;
+      $("#mapScreen").hidden = false;
+      renderMap();
+    }
   });
 
   renderMap();

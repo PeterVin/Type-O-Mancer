@@ -29,6 +29,7 @@ button {
   cursor: pointer;
 }
 .secondary-button,
+.primary-button,
 .text-button {
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -314,4 +315,27 @@ h1 {
 }
 .rune-char.wrong {
   color: var(--danger);
+}
+.modal-backdrop {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: #03050dd8;
+  backdrop-filter: blur(10px);
+}
+.result-modal {
+  width: min(480px, 100%);
+  padding: 34px;
+  border: 1px solid #ffffff3b;
+  border-radius: 24px;
+  background: #0c1121;
+  text-align: center;
+}
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
