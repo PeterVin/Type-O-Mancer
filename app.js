@@ -12,6 +12,7 @@
   let playerMistakes = 0;
   let botCursor = 0;
   let botTimer = null;
+  let botStunned = false;
   let elapsed = 0;
   let challenge = "";
   let winScores = {};
@@ -123,15 +124,29 @@
   }
 
   function botProfile() {
+    const tier = Math.floor(currentStage / 3);
     return {
       wpm: 24 + currentStage * 3 + DIFFICULTY_SETTINGS[difficulty].modifier,
+      errorRate: Math.max(
+        0.01,
+        0.15 -
+          currentStage * 0.009 +
+          DIFFICULTY_SETTINGS[difficulty].errorModifier,
+      ),
+      correction: [2000, 1000, 750, 500, 250][Math.min(tier, 4)],
     };
   }
 
   function scheduleBot(delay) {
     botTimer = window.setTimeout(() => {
-      if (!running || finished) return;
+      if (!running || finished || botStunned) return;
       const profile = botProfile();
+      if (Math.random() < profile.errorRate && challenge[botCursor] !== " ") {
+        $("#enemyState").textContent = "Mistake! Correcting...";
+        botTimer = window.setTimeout(() => scheduleBot(60), profile.correction);
+        return;
+      }
+      $("#enemyState").textContent = "I will crush you!";
       botCursor += 1;
       renderTyping($("#enemyRune"), botCursor);
       updateStats();
