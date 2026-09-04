@@ -9,6 +9,7 @@
   let currentStage = 0;
   let challenge = "";
   let playerCursor = 0;
+  let startTime = null;
   let playerCorrect = 0;
   let playerMistakes = 0;
   let finished = false;
@@ -93,6 +94,19 @@
     prepareBattle();
   }
 
+  function updateStats() {
+    const attemts = playerCorrect + playerMistakes;
+    const accuracy = attemts
+      ? Math.round((playerCorrect / attemts) * 100)
+      : 100;
+    const elapsedSeconds = startTime ? (Date.now() - startTime) / 1000 : 0;
+    const wpm = elapsedSeconds
+      ? Math.round(playerCorrect / 5 / (elapsedSeconds / 60))
+      : 0;
+    $("#accuracy").textContent = `${accuracy}%`;
+    $("#wpm").textContent = `${wpm} WPM`;
+  }
+
   $("#typingInput").addEventListener("keydown", (event) => {
     if (
       finished ||
@@ -104,6 +118,10 @@
       return;
 
     event.preventDefault();
+    if (startTime === null) {
+      startTime = Date.now();
+    }
+    updateStats();
     if (event.key === challenge[playerCursor]) {
       playerCursor++;
       playerCorrect++;
