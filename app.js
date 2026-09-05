@@ -7,6 +7,7 @@
   let difficulty = "easy";
   let unlocked = 0;
   let currentStage = 0;
+  let campaignComplete = false;
   let playerCursor = 0;
   let playerCorrect = 0;
   let playerMistakes = 0;
@@ -63,6 +64,7 @@
   function saveProgress() {
     localStorage.setItem(STORAGE_KEYS.progress, String(unlocked));
     localStorage.setItem(STORAGE_KEYS.wins, JSON.stringify(winScores));
+    localStorage.setItem(STORAGE_KEYS.complete, String(campaignComplete));
   }
 
   function restoreProgress() {
@@ -78,6 +80,7 @@
         localStorage.getItem(STORAGE_KEYS.wins) || "{}",
       );
       winScores = scores && typeof scores === "object" ? scores : {};
+      campaignComplete = localStorage.getItem(STORAGE_KEYS.complete) === "true";
     } catch {
       unlocked = 0;
       winScores = {};
@@ -112,16 +115,20 @@
       stages: STAGES,
       unlocked,
       winScores,
+      campaignComplete,
       onStageSelect: (index) => {
         if (index <= unlocked) startStage(index);
       },
     });
-    $("#progressText").textContent =
-      String(unlocked + 1) +
-      " / " +
-      STAGES.length +
-      " stages unlocked * Destination: " +
-      STAGES[unlocked].name;
+    $("#progressText").textContent = getProgressText();
+  }
+
+  function getProgressText() {
+    if (campaignComplete) {
+      return "Campaign complete";
+    }
+
+    return `${unlocked + 1} / ${STAGES.length} stages unlocked · Destination: ${STAGES[unlocked].name}`;
   }
 
   function renderTyping(target, cursor, errorAt = -1) {
@@ -371,25 +378,49 @@
     const stage = STAGES[currentStage];
     const score = currentWpm(playerCorrect);
     if (victory) {
+      updateVictoryProgress(score);
       playWinSound();
-      winScores[currentStage] = Math.max(winScores[currentStage] || 0, score);
-      unlocked = Math.max(
-        unlocked,
-        Math.min(currentStage + 1, STAGES.length - 1),
-      );
-      saveProgress();
     } else {
       playDefeatSound();
     }
-    $("#resultEyebrow").textContent = victory ? "VICTORY" : "RACE LOST";
-    $("#resultTitle").textContent = victory
-      ? `${stage.name} defeated!`
-      : `${stage.name} finished first!`;
-    $("#resultCopy").textContent = victory
-      ? `${stage.win} Winning speed: ${score} WPM.`
-      : "Restart the duel and protect your rhythm.";
-    $("#nextStage").hidden = !victory;
+    const result = getBattleResult(victory, stage, score);
+    $("#resultEyebrow").textContent = result.eyebrow;
+    $("#resultTitle").textContent = result.title;
+    $("#resultCopy").textContent = result.copy;
+    $("#nextStage").hidden = !victory || campaignComplete;
     $("#resultModal").hidden = false;
+  }
+
+  function updateVictoryProgress(score) {
+    winScores[currentStage] = Math.max(winScores[currentStage] || 0, score);
+    unlocked = Math.max(
+      unlocked,
+      Math.min(currentStage + 1, STAGES.length - 1),
+    );
+    campaignComplete = currentStage === STAGES.length - 1;
+    saveProgress();
+  }
+
+  function getBattleResult(victory, stage, score) {
+    if (!victory) {
+      return {
+        eyebrow: "RACE LOST",
+        title: `${stage.name} finished first`,
+        copy: "Restart the duel and protect your rhythm.",
+      };
+    }
+    if (campaignComplete) {
+      return {
+        eyebrow: "LEGENDARY TYPIST",
+        title: "You are the Realm's Greatest Typist!",
+        copy: "Every guardian fell to your rhythm. Keep forging faster, Keyboard Knight!",
+      };
+    }
+    return {
+      eyebrow: "VICTORY",
+      title: `${stage.name} defeated!`,
+      copy: `${stage.win} Winning speed: ${score} WPM.`,
+    };
   }
 
   $("#restartBattle").addEventListener("click", prepareBattle);
