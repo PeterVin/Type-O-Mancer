@@ -113,12 +113,31 @@
             </div>
             <div class="avatar-bubble player-bubble" id="playerBubble">
               <div class="sprite player-sprite" aria-hidden="true"></div>
+              <span class="dizzy-stars" aria-hidden="true">
+                <span style="--i: 0">&#x2726;</span>
+                <span style="--i: 1">&#x2727;</span>
+                <span style="--i: 2">&#x2726;</span>
+                <span style="--i: 3">&#x2727;</span>
+                <span style="--i: 4">&#x2726;</span>
+                <span style="--i: 5">&#x2727;</span>
+              </span>
+            </div>
+            <div class="speech-bubble player-speech" id="playerSpeech">
+              Ready when you are.
             </div>
           </section>
           <div class="versus" aria-hidden="true">VS</div>
           <section class="fighter enemy-fighter">
             <div class="avatar-bubble enemy-bubble" id="enemyBubble">
               <div class="sprite" id="enemySprite" aria-hidden="true"></div>
+              <span class="dizzy-stars" aria-hidden="true">
+                <span style="--i: 0">&#x2726;</span>
+                <span style="--i: 1">&#x2727;</span>
+                <span style="--i: 2">&#x2726;</span>
+                <span style="--i: 3">&#x2727;</span>
+                <span style="--i: 4">&#x2726;</span>
+                <span style="--i: 5">&#x2727;</span>
+              </span>
             </div>
             <div class="fighter-label enemy-label">
               <span>GUARDIAN</span><strong id="enemyName"></strong>
@@ -129,6 +148,9 @@
                 <span id="enemyHealthFill"></span>
               </div>
               <small id="enemyHealthText">100%</small>
+            </div>
+            <div class="speech-bubble enemy-speech" id="enemySpeech">
+              I will crush you!
             </div>
           </section>
         </div>
