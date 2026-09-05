@@ -51,7 +51,7 @@
       unlocked,
       winScores,
       onStageSelect: (index) => {
-        if (index == unlocked) startStage(index);
+        if (index <= unlocked) startStage(index);
       },
     });
     $("#progressText").textContent =
@@ -93,7 +93,7 @@
   }
 
   function prepareBattle() {
-    stopClock();
+    stopRace();
     playerCursor = 0;
     playerCorrect = 0;
     playerMistakes = 0;
@@ -123,6 +123,8 @@
     $("#regionName").textContent = stage.region;
     $("#stageName").textContent = stage.name;
     $("#enemyName").textContent = stage.enemyName;
+    $("#playerSpeech").textContent = "Ready when you are.";
+    $("#enemySpeech").textContent = stage.encounter;
     renderCharacters();
     prepareBattle();
   }
@@ -198,11 +200,32 @@
   function stunBot(delay) {
     renderBot(botCursor);
     botStunned = true;
+    $("#enemyBubble").classList.add("stunned");
     $("#enemyState").textContent = "Mistake! Correcting...";
+    $("#enemySpeech").textContent = STAGES[currentStage].dizzy;
+
     botStunTimer = window.setTimeout(() => {
       botStunned = false;
+      $("#enemyBubble").classList.remove("stunned");
+      $("#enemySpeech").textContent = STAGES[currentStage].recover;
       scheduleBot(60);
     }, delay);
+  }
+
+  function stunPlayer() {
+    playerStunned = true;
+    $("#playerBubble").classList.add("stunned");
+    $("#playerState").textContent = "Dizzy! Recovering for 2 seconds...";
+    $("#playerSpeech").textContent = "Stars...everywhere...";
+    window.clearTimeout(playerStunTimer);
+    playerStunTimer = window.setTimeout(() => {
+      if (finished) return;
+      playerStunned = false;
+      $("#playerBubble").classList.remove("stunned");
+      $("#playerState").textContent = "Recovered. Keep typing.";
+      $("#playerSpeech").textContent = "Back in the fight.";
+      $("#typingInput").focus();
+    }, 2000);
   }
 
   function scheduleBot(delay) {
@@ -225,7 +248,7 @@
     }, delay);
   }
 
-  function startClock() {
+  function startRace() {
     if (running) return;
     running = true;
     clock = window.setInterval(() => {
@@ -236,24 +259,12 @@
     scheduleBot(200);
   }
 
-  function stopClock() {
+  function stopRace() {
     running = false;
     window.clearInterval(clock);
     clock = null;
     window.clearInterval(botTimer);
     botTimer = null;
-  }
-
-  function stunPlayer() {
-    playerStunned = true;
-    $("#playerState").textContent = "Dizzy! Recovering for 2 seconds...";
-    window.clearTimeout(playerStunTimer);
-    playerStunTimer = window.setTimeout(() => {
-      if (finished) return;
-      playerStunned = false;
-      $("#playerState").textContent = "Recovered. Keep typing.";
-      $("#typingInput").focus();
-    }, 2000);
   }
 
   $("#typingInput").addEventListener("keydown", (event) => {
@@ -270,7 +281,7 @@
 
     if (playerStunned) return;
 
-    startClock();
+    startRace();
 
     if (event.key === challenge[playerCursor]) {
       playerCursor++;
@@ -292,7 +303,7 @@
   function endBattle(victory) {
     if (finished) return;
     finished = true;
-    stopClock();
+    stopRace();
     const stage = STAGES[currentStage];
     const score = currentWpm(playerCorrect);
     if (victory) {
@@ -315,7 +326,7 @@
 
   $("#restartBattle").addEventListener("click", prepareBattle);
   $("#leaveBattle").addEventListener("click", () => {
-    stopClock();
+    stopRace();
     $("#battleScreen").hidden = true;
     $("#mapScreen").hidden = false;
     renderMap();
