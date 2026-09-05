@@ -87,6 +87,20 @@
     }
   }
 
+  function resetCampaign() {
+    localStorage.removeItem(STORAGE_KEYS.progress);
+    localStorage.removeItem(STORAGE_KEYS.wins);
+    localStorage.removeItem(STORAGE_KEYS.complete);
+
+    unlocked = 0;
+    winScores = {};
+    currentStage = 0;
+    campaignComplete = false;
+
+    $("#resetModal").hidden = true;
+    renderMap();
+  }
+
   const difficultyButtons = document.querySelectorAll(".difficulty");
 
   difficultyButtons.forEach((button) => {
@@ -454,6 +468,18 @@
       ? "Sound: on"
       : "Sound: off";
     if (soundEnabled) playKeySound();
+  });
+
+  $("#resetCampaign").addEventListener("click", () => {
+    $("#resetModal").hidden = false;
+  });
+
+  $("#cancelReset").addEventListener("click", () => {
+    $("#resetModal").hidden = true;
+  });
+
+  $("#confirmReset").addEventListener("click", () => {
+    resetCampaign();
   });
 
   restoreProgress();

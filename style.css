@@ -440,3 +440,21 @@ h1 {
   color: #ffe08a;
   font-weight: 900;
 }
+
+.reset-modal {
+  border-color: #ff5d7788;
+}
+
+.reset-modal .eyebrow {
+  color: #ff5d77;
+}
+
+.danger-button {
+  border: 1px solid #ff5d77;
+  color: #fff;
+  background: #8f2039;
+}
+
+.danger-button:hover {
+  background: #b92d4b;
+}
