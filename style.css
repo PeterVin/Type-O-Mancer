@@ -422,3 +422,21 @@ h1 {
   justify-content: center;
   gap: 10px;
 }
+.final-victory {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.final-victory img {
+  display: block;
+  width: 100%;
+  filter: drop-shadow(0 0 13px #ffd34c);
+}
+.final-victory::after {
+  content: "CONGRATULATIONS";
+  position: absolute;
+  left: 50%;
+  bottom: -8%;
+  transform: translateX(-50%);
+  color: #ffe08a;
+  font-weight: 900;
+}

@@ -386,11 +386,19 @@
     },
   ];
 
+  const VICTORY_ARTWORK = {
+    file: "VICTORY.png",
+    left: 92.5,
+    top: 82,
+    width: 13.8,
+  };
+
   window.TypeOMancerCampaign = {
     ASSET_PATH,
     DIFFICULTY_SETTINGS,
     STAGES,
     MAP_SITE_ARTWORK,
     SPRITES,
+    VICTORY_ARTWORK,
   };
 })();
