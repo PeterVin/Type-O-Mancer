@@ -65,6 +65,25 @@
     localStorage.setItem(STORAGE_KEYS.wins, JSON.stringify(winScores));
   }
 
+  function restoreProgress() {
+    try {
+      const value = Number.parseInt(
+        localStorage.getItem(STORAGE_KEYS.progress),
+        10,
+      );
+      unlocked = Number.isInteger(value)
+        ? Math.min(Math.max(value, 0), STAGES.length - 1)
+        : 0;
+      const scores = JSON.parse(
+        localStorage.getItem(STORAGE_KEYS.wins) || "{}",
+      );
+      winScores = scores && typeof scores === "object" ? scores : {};
+    } catch {
+      unlocked = 0;
+      winScores = {};
+    }
+  }
+
   const difficultyButtons = document.querySelectorAll(".difficulty");
 
   difficultyButtons.forEach((button) => {
@@ -406,5 +425,6 @@
     if (soundEnabled) playKeySound();
   });
 
+  restoreProgress();
   renderMap();
 })();
