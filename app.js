@@ -22,6 +22,38 @@
   let running = false;
   let finished = false;
   let clock = null;
+  let soundEnabled = true;
+  const KEY_SOUND = "audio/mixkit-hard-single-key-press-in-a-laptop-2542.wav";
+  const KEY_FAIL_SOUND = "audio/mixkit-single-key-type-2533.wav";
+  const WIN_SOUND = "audio/mixkit-successful-horns-fanfare-722.wav";
+  const DEFEAT_SOUND = "audio/mixkit-slow-sad-trombone-fail-472.wav";
+
+  function playAudio(src, volume = 0.72, playbackRate = 1) {
+    if (!soundEnabled) return;
+
+    const sound = new Audio(src);
+    sound.volume = volume;
+    sound.playbackRate = playbackRate;
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+  }
+
+  function playKeySound() {
+    const randomRate = 0.95 + Math.random() * 0.1;
+    playAudio(KEY_SOUND, 0.62, randomRate);
+  }
+
+  function playKeyFailSound() {
+    playAudio(KEY_FAIL_SOUND, 0.72, 0.9);
+  }
+
+  function playWinSound() {
+    playAudio(WIN_SOUND);
+  }
+
+  function playDefeatSound() {
+    playAudio(DEFEAT_SOUND);
+  }
 
   const difficultyButtons = document.querySelectorAll(".difficulty");
 
@@ -41,6 +73,7 @@
         " (modifier: " +
         profile.modifier +
         ")";
+      playKeySound();
     });
   });
 
@@ -286,6 +319,7 @@
     if (event.key === challenge[playerCursor]) {
       playerCursor++;
       playerCorrect++;
+      playKeySound();
       $("#playerState").textContent = "Keep typing.";
       updateStats();
 
@@ -295,6 +329,7 @@
       }
     } else {
       playerMistakes++;
+      playKeyFailSound();
       renderTyping($("#playerRune"), playerCursor, playerCursor);
       stunPlayer();
     }
@@ -307,11 +342,14 @@
     const stage = STAGES[currentStage];
     const score = currentWpm(playerCorrect);
     if (victory) {
+      playWinSound();
       winScores[currentStage] = Math.max(winScores[currentStage] || 0, score);
       unlocked = Math.max(
         unlocked,
         Math.min(currentStage + 1, STAGES.length - 1),
       );
+    } else {
+      playDefeatSound();
     }
     $("#resultEyebrow").textContent = victory ? "VICTORY" : "RACE LOST";
     $("#resultTitle").textContent = victory
@@ -346,6 +384,15 @@
       $("#mapScreen").hidden = false;
       renderMap();
     }
+  });
+
+  $("#soundToggle").addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+    $("#soundToggle").setAttribute("aria-pressed", String(soundEnabled));
+    $("#soundToggle .sound-label").textContent = soundEnabled
+      ? "Sound: on"
+      : "Sound: off";
+    if (soundEnabled) playKeySound();
   });
 
   renderMap();
