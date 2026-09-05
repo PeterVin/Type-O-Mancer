@@ -40,6 +40,9 @@
       name: "Troll Hollow",
       enemyName: "Troll",
       sprite: SPRITES.TROLL,
+      encounter: "Come closer! I haven't eaten a typist all day!",
+      dizzy: "Wait... why are there two of you?",
+      recover: "Enough spinning! Time to smash!",
       win: "The swamp falls silent. The Ogre Fort is now within reach.",
       texts: [
         "You will starve today, big guy!",
@@ -53,6 +56,9 @@
       name: "Ogre Fort",
       enemyName: "Ogre",
       sprite: SPRITES.OGRE,
+      encounter: "Me smash keyboard! Then me smash you!",
+      dizzy: "Why ground moving...? Ground stop!",
+      recover: "Head good again! Now me crush you!",
       win: "The fort gates crumble. A dragon is waiting beyond the trees.",
       texts: [
         "This swamp belongs to me now!",
@@ -66,6 +72,9 @@
       name: "Dragon Lair",
       enemyName: "Jade Dragon",
       sprite: SPRITES.JADE_DRAGON,
+      encounter: "Your fingers will turn to ash before you finish a word.",
+      dizzy: "My flames... why are they spinning?",
+      recover: "A momentary weakness. It will not happen again.",
       win: "The dragon yields. Frost Mountain rises ahead.",
       texts: [
         "Green fire fades before the swiftest keys.",
@@ -79,6 +88,9 @@
       name: "Kobold Camp",
       enemyName: "Frost Kobold",
       sprite: SPRITES.FROST_KOBOLD,
+      encounter: "Hehehe! Tiny claws, sharp teeth, faster than you!",
+      dizzy: "Whoa—ice slippery! Who put ice here?!",
+      recover: "Hehe! Still here? Good! More biting!",
       win: "The camp is clear. The Yeti Pass is open.",
       texts: [
         "Shiny gold shiny gems! We dig deep in the dark ice!",
@@ -92,6 +104,9 @@
       name: "Yeti Pass",
       enemyName: "Yeti",
       sprite: SPRITES.YETI,
+      encounter: "RAAARGH! I will bury you beneath the snow!",
+      dizzy: "Ugh... mountain spinning... Yeti not like.",
+      recover: "Yeti ready! Yeti smash now!",
       win: "The mountain shakes, but you stand. The shaman calls from the ice.",
       texts: [
         "Snow falls softly but your keys strike faster.",
@@ -105,6 +120,9 @@
       name: "Shaman Circle",
       enemyName: "Ice Shaman",
       sprite: SPRITES.ICE_SHAMAN,
+      encounter: "The frozen spirits already whisper your defeat.",
+      dizzy: "The spirits... have gone strangely quiet.",
+      recover: "The spirits return. So does your doom.",
       win: "The storm dissolves. A gilded realm glows below.",
       texts: [
         "Ancient stones listen to the sound of focus.",
@@ -118,6 +136,10 @@
       name: "Dwarven Stronghold",
       enemyName: "Dwarf",
       sprite: SPRITES.DWARF,
+      encounter:
+        "Come on then! Let's see if those fingers hit harder than my hammer!",
+      dizzy: "By my beard... who rang that bell?!",
+      recover: "Right then! Back to hammering!",
       win: "The forge is yours. Follow the crystal light to the elf.",
       texts: [
         "By Armok's beard! Does the hammer hit harder, or the keys?",
@@ -131,6 +153,9 @@
       name: "Elven Glade",
       enemyName: "Elf",
       sprite: SPRITES.ELF,
+      encounter: "One mistake is all I need to loose the arrow.",
+      dizzy: "The forest... appears to have two of everything.",
+      recover: "My sight is clear again. Yours won't be for long.",
       win: "The glade opens. The Golden Dragon has noticed you.",
       texts: [
         "An arrow through the eye before you can finish your sentence.",
@@ -144,6 +169,9 @@
       name: "Golden Dragon Roost",
       enemyName: "Golden Dragon",
       sprite: SPRITES.GOLDEN_DRAGON,
+      encounter: "Prove your worth, mortal, or become ash beneath my wings.",
+      dizzy: "Impossible... the heavens themselves are turning.",
+      recover: "The haze has passed. Face me again, mortal.",
       win: "The golden wings bow. Rise to the Celestial Haven.",
       texts: [
         "Purity of heart and speed of hand: show me your true worth!",
@@ -157,6 +185,9 @@
       name: "Warrior's Watch",
       enemyName: "Elite Soldier",
       sprite: SPRITES.ELITE_SOLDIER,
+      encounter: "Stand your ground. I will tolerate no weakness.",
+      dizzy: "Maintain formation... which way is forward?",
+      recover: "Focus restored. Resume combat!",
       win: "A worthy duel. The Zealot's Altar shines ahead.",
       texts: [
         "Honor guides my blade, duty shields my heart, and discipline ensures your absolute defeat!",
@@ -170,6 +201,9 @@
       name: "Zealot's Altar",
       enemyName: "Prime Zealot",
       sprite: SPRITES.PRIME_ZEALOT,
+      encounter: "Your every mistake is an insult to the divine!",
+      dizzy: "The sacred light... seems unusually blurry.",
+      recover: "The divine light guides me once more!",
       win: "Your rhythm outshines the altar. The angel awaits.",
       texts: [
         "Listen closely as the sacred bells ring for your sins—every missed key seals your doom!",
@@ -183,6 +217,9 @@
       name: "Angel's Grace",
       enemyName: "Angel",
       sprite: SPRITES.ANGEL,
+      encounter: "Mortal, show me that your hands are worthy of heaven.",
+      dizzy: "My halo... is not supposed to spin like this.",
+      recover: "My balance returns. Let judgment continue.",
       win: "The sky gate opens. Only the Matrix remains.",
       texts: [
         "Mortal fingers always falter and stumble where celestial wings soar high into the heavens!",
@@ -196,6 +233,9 @@
       name: "Gamer Lair",
       enemyName: "Jenkins",
       sprite: SPRITES.JENKINS,
+      encounter: "Bro, I've been grinding longer than you've been typing.",
+      dizzy: "Dude... who unplugged my brain?",
+      recover: "Okay, brain rebooted. Let's go!",
       win: "Build failed. The Scribe is preparing its counterspell.",
       texts: [
         "That's why we just need to log in and stay in the forest, killing boars.",
@@ -209,6 +249,9 @@
       name: "Scribe Headquarters",
       enemyName: "The Centimanus Scribe",
       sprite: SPRITES.CENTIMANUS_SCRIBE,
+      encounter: "One hundred hands. One thousand words. Zero mercy.",
+      dizzy: "WAIT—WHICH HAND WAS TYPING WHAT?!",
+      recover: "HAND_COORDINATION restored. Resume typing!",
       win: "A hundred scripts cannot stop you. The Digital Overlord is online.",
       texts: [
         "I write 1000 WPM with fifty pens simultaneously: [INITIATE_PROTOCOL]",
@@ -222,6 +265,10 @@
       name: "Digital Overlord",
       enemyName: "Sorcerer Jarvis",
       sprite: SPRITES.SORCERER_JARVIS,
+      encounter:
+        "Combat protocol engaged. Your failure is statistically inevitable.",
+      dizzy: "ERROR: Why am I processing the room twice?",
+      recover: "SYSTEM RECOVERED. Combat protocol resumed.",
       win: "PROTOCOL COMPLETE. You forged a legend from every key.",
       texts: [
         'if (player.WPM < 120) { status = "TERMINATED"; execute(OVERDRIVE); }',
