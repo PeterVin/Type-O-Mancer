@@ -2,10 +2,10 @@
   "use strict";
 
   const $ = (selector) => document.querySelector(selector);
-  const { DIFFICULTY_SETTINGS, STAGES } = window.TypeOMancerCampaign;
+  const { DIFFICULTY_SETTINGS, STAGES, SPRITES } = window.TypeOMancerCampaign;
   const { renderMap: renderCampaignMap } = window.TypeOMancerMap;
   let difficulty = "easy";
-  let unlocked = 0;
+  let unlocked = 7;
   let currentStage = 0;
   let playerCursor = 0;
   let playerCorrect = 0;
@@ -81,6 +81,17 @@
     if (restoreFocus && !finished) $("#typingInput")?.focus();
   }
 
+  function getSpriteUrl(sprite) {
+    return `url('assets/characters/${sprite}.png')`;
+  }
+
+  function renderCharacters() {
+    $(".player-sprite").style.backgroundImage = getSpriteUrl(SPRITES.PLAYER);
+    $("#enemySprite").style.backgroundImage = getSpriteUrl(
+      STAGES[currentStage].sprite,
+    );
+  }
+
   function prepareBattle() {
     stopClock();
     playerCursor = 0;
@@ -111,6 +122,7 @@
     $("#regionName").textContent = stage.region;
     $("#stageName").textContent = stage.name;
     $("#enemyName").textContent = stage.enemyName;
+    renderCharacters();
     prepareBattle();
   }
 
