@@ -9,13 +9,37 @@
     hard: { modifier: 15, errorModifier: -0.06 },
   };
 
+  const SPRITES = {
+    PLAYER: "keyboard-knight",
+
+    TROLL: "troll",
+    OGRE: "ogre",
+    JADE_DRAGON: "jade-dragon",
+
+    FROST_KOBOLD: "frost-kobold",
+    YETI: "yeti",
+    ICE_SHAMAN: "ice-shaman",
+
+    DWARF: "dwarf",
+    ELF: "elf",
+    GOLDEN_DRAGON: "golden-dragon",
+
+    ELITE_SOLDIER: "elite-soldier",
+    PRIME_ZEALOT: "prime-zealot",
+    ANGEL: "angel",
+
+    JENKINS: "jenkins",
+    CENTIMANUS_SCRIBE: "centimanus-scribe",
+    SORCERER_JARVIS: "sorcerer-jarvis",
+  };
+
   const STAGES = [
     {
       region: "The Emerald Whispers",
       regionClass: "forest",
       name: "Troll Hollow",
       enemyName: "Troll",
-      sprite: 1,
+      sprite: SPRITES.TROLL,
       win: "The swamp falls silent. The Ogre Fort is now within reach.",
       texts: [
         "You will starve today, big guy!",
@@ -28,7 +52,7 @@
       regionClass: "forest",
       name: "Ogre Fort",
       enemyName: "Ogre",
-      sprite: 2,
+      sprite: SPRITES.OGRE,
       win: "The fort gates crumble. A dragon is waiting beyond the trees.",
       texts: [
         "This swamp belongs to me now!",
@@ -41,7 +65,7 @@
       regionClass: "forest",
       name: "Dragon Lair",
       enemyName: "Jade Dragon",
-      sprite: 3,
+      sprite: SPRITES.JADE_DRAGON,
       win: "The dragon yields. Frost Mountain rises ahead.",
       texts: [
         "Green fire fades before the swiftest keys.",
@@ -54,7 +78,7 @@
       regionClass: "frost",
       name: "Kobold Camp",
       enemyName: "Frost Kobold",
-      sprite: 4,
+      sprite: SPRITES.FROST_KOBOLD,
       win: "The camp is clear. The Yeti Pass is open.",
       texts: [
         "Shiny gold shiny gems! We dig deep in the dark ice!",
@@ -67,7 +91,7 @@
       regionClass: "frost",
       name: "Yeti Pass",
       enemyName: "Yeti",
-      sprite: 5,
+      sprite: SPRITES.YETI,
       win: "The mountain shakes, but you stand. The shaman calls from the ice.",
       texts: [
         "Snow falls softly but your keys strike faster.",
@@ -80,7 +104,7 @@
       regionClass: "frost",
       name: "Shaman Circle",
       enemyName: "Ice Shaman",
-      sprite: 6,
+      sprite: SPRITES.ICE_SHAMAN,
       win: "The storm dissolves. A gilded realm glows below.",
       texts: [
         "Ancient stones listen to the sound of focus.",
@@ -93,7 +117,7 @@
       regionClass: "gilded",
       name: "Dwarven Stronghold",
       enemyName: "Dwarf",
-      sprite: 7,
+      sprite: SPRITES.DWARF,
       win: "The forge is yours. Follow the crystal light to the elf.",
       texts: [
         "By Armok's beard! Does the hammer hit harder, or the keys?",
@@ -106,7 +130,7 @@
       regionClass: "gilded",
       name: "Elven Glade",
       enemyName: "Elf",
-      sprite: 8,
+      sprite: SPRITES.ELF,
       win: "The glade opens. The Golden Dragon has noticed you.",
       texts: [
         "An arrow through the eye before you can finish your sentence.",
@@ -119,7 +143,7 @@
       regionClass: "gilded",
       name: "Golden Dragon Roost",
       enemyName: "Golden Dragon",
-      sprite: 9,
+      sprite: SPRITES.GOLDEN_DRAGON,
       win: "The golden wings bow. Rise to the Celestial Haven.",
       texts: [
         "Purity of heart and speed of hand: show me your true worth!",
@@ -132,7 +156,7 @@
       regionClass: "celestial",
       name: "Warrior's Watch",
       enemyName: "Elite Soldier",
-      sprite: 10,
+      sprite: SPRITES.ELITE_SOLDIER,
       win: "A worthy duel. The Zealot's Altar shines ahead.",
       texts: [
         "Honor guides my blade, duty shields my heart, and discipline ensures your absolute defeat!",
@@ -145,7 +169,7 @@
       regionClass: "celestial",
       name: "Zealot's Altar",
       enemyName: "Prime Zealot",
-      sprite: 11,
+      sprite: SPRITES.PRIME_ZEALOT,
       win: "Your rhythm outshines the altar. The angel awaits.",
       texts: [
         "Listen closely as the sacred bells ring for your sins—every missed key seals your doom!",
@@ -158,7 +182,7 @@
       regionClass: "celestial",
       name: "Angel's Grace",
       enemyName: "Angel",
-      sprite: 12,
+      sprite: SPRITES.ANGEL,
       win: "The sky gate opens. Only the Matrix remains.",
       texts: [
         "Mortal fingers always falter and stumble where celestial wings soar high into the heavens!",
@@ -171,7 +195,7 @@
       regionClass: "cyber",
       name: "Gamer Lair",
       enemyName: "Jenkins",
-      sprite: 13,
+      sprite: SPRITES.JENKINS,
       win: "Build failed. The Scribe is preparing its counterspell.",
       texts: [
         "That's why we just need to log in and stay in the forest, killing boars.",
@@ -184,7 +208,7 @@
       regionClass: "cyber",
       name: "Scribe Headquarters",
       enemyName: "The Centimanus Scribe",
-      sprite: 14,
+      sprite: SPRITES.CENTIMANUS_SCRIBE,
       win: "A hundred scripts cannot stop you. The Digital Overlord is online.",
       texts: [
         "I write 1000 WPM with fifty pens simultaneously: [INITIATE_PROTOCOL]",
@@ -197,7 +221,7 @@
       regionClass: "cyber",
       name: "Digital Overlord",
       enemyName: "Sorcerer Jarvis",
-      sprite: 15,
+      sprite: SPRITES.SORCERER_JARVIS,
       win: "PROTOCOL COMPLETE. You forged a legend from every key.",
       texts: [
         'if (player.WPM < 120) { status = "TERMINATED"; execute(OVERDRIVE); }',
@@ -320,5 +344,6 @@
     DIFFICULTY_SETTINGS,
     STAGES,
     MAP_SITE_ARTWORK,
+    SPRITES,
   };
 })();
