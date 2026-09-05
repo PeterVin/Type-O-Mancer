@@ -27,6 +27,11 @@
   const KEY_FAIL_SOUND = "audio/mixkit-single-key-type-2533.wav";
   const WIN_SOUND = "audio/mixkit-successful-horns-fanfare-722.wav";
   const DEFEAT_SOUND = "audio/mixkit-slow-sad-trombone-fail-472.wav";
+  const STORAGE_KEYS = {
+    progress: "typeforge-progress",
+    wins: "typeforge-wins",
+    complete: "typeforge-campaign-complete",
+  };
 
   function playAudio(src, volume = 0.72, playbackRate = 1) {
     if (!soundEnabled) return;
@@ -53,6 +58,11 @@
 
   function playDefeatSound() {
     playAudio(DEFEAT_SOUND);
+  }
+
+  function saveProgress() {
+    localStorage.setItem(STORAGE_KEYS.progress, String(unlocked));
+    localStorage.setItem(STORAGE_KEYS.wins, JSON.stringify(winScores));
   }
 
   const difficultyButtons = document.querySelectorAll(".difficulty");
@@ -348,6 +358,7 @@
         unlocked,
         Math.min(currentStage + 1, STAGES.length - 1),
       );
+      saveProgress();
     } else {
       playDefeatSound();
     }
