@@ -5,7 +5,7 @@
   const { DIFFICULTY_SETTINGS, STAGES, SPRITES } = window.TypeOMancerCampaign;
   const { renderMap: renderCampaignMap } = window.TypeOMancerMap;
   let difficulty = "easy";
-  let unlocked = 7;
+  let unlocked = 0;
   let currentStage = 0;
   let playerCursor = 0;
   let playerCorrect = 0;
@@ -119,6 +119,7 @@
     challenge = stage.texts[Math.floor(Math.random() * stage.texts.length)];
     $("#mapScreen").hidden = true;
     $("#battleScreen").hidden = false;
+    $("#battleScreen").className = `battle-screen region-${stage.regionClass}`;
     $("#regionName").textContent = stage.region;
     $("#stageName").textContent = stage.name;
     $("#enemyName").textContent = stage.enemyName;
