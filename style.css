@@ -237,6 +237,21 @@ h1 {
   min-height: 360px;
   gap: 40px;
 }
+.battle-screen.region-forest {
+  background: radial-gradient(circle at 78% 20%, #174d2e88, transparent 44%);
+}
+.battle-screen.region-frost {
+  background: radial-gradient(circle at 78% 20%, #3a73b788, transparent 44%);
+}
+.battle-screen.region-gilded {
+  background: radial-gradient(circle at 78% 20%, #8b642a88, transparent 44%);
+}
+.battle-screen.region-celestial {
+  background: radial-gradient(circle at 78% 20%, #765fa788, transparent 44%);
+}
+.battle-screen.region-matrix {
+  background: radial-gradient(circle at 78% 20%, #4f197c88, transparent 44%);
+}
 .duel-panel {
   padding: 20px;
 }
