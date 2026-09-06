@@ -47,12 +47,43 @@
   let clock = null,
     botTimer = null,
     playerStunTimer = null,
-    botStunTimer = null;
+    botStunTimer = null,
+    soundEnabled = true;
 
-  let campaignComplete = false;
-  let winScores = {};
-  let soundEnabled = true;
-  let unlocked = 0;
+  let winScores = readWinScores();
+
+  const savedProgress = Number.parseInt(
+    localStorage.getItem(STORAGE_KEYS.progress),
+    10,
+  );
+
+  let unlocked = Number.isInteger(savedProgress)
+    ? Math.min(Math.max(savedProgress, 0), FINAL_STAGE_INDEX)
+    : 0;
+
+  let campaignComplete = isStoredCampaignComplete();
+
+  const difficultyButtons = document.querySelectorAll(".difficulty");
+
+  difficultyButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      difficulty = button.dataset.difficulty;
+
+      difficultyButtons.forEach((item) => {
+        const selected = item === button;
+        item.classList.toggle("active", selected);
+        item.setAttribute("aria-checked", String(selected));
+      });
+      const profile = DIFFICULTY_SETTINGS[difficulty];
+      $("#progressText").textContent =
+        "Difficulty ready: " +
+        difficulty +
+        " (modifier: " +
+        profile.modifier +
+        ")";
+      playKeySound();
+    });
+  });
 
   function playAudio(src, volume = 0.72, playbackRate = 1) {
     if (!soundEnabled) return;
@@ -84,33 +115,39 @@
   function saveProgress() {
     localStorage.setItem(STORAGE_KEYS.progress, String(unlocked));
     localStorage.setItem(STORAGE_KEYS.wins, JSON.stringify(winScores));
-    localStorage.setItem(STORAGE_KEYS.complete, String(campaignComplete));
+    localStorage.setItem(
+      STORAGE_KEYS.campaignComplete,
+      String(campaignComplete),
+    );
   }
 
-  function restoreProgress() {
+  function readWinScores() {
     try {
-      const value = Number.parseInt(
-        localStorage.getItem(STORAGE_KEYS.progress),
-        10,
-      );
-      unlocked = Number.isInteger(value)
-        ? Math.min(Math.max(value, 0), FINAL_STAGE_INDEX)
-        : 0;
-      const scores = JSON.parse(
+      const savedScores = JSON.parse(
         localStorage.getItem(STORAGE_KEYS.wins) || "{}",
       );
-      winScores = scores && typeof scores === "object" ? scores : {};
-      campaignComplete = localStorage.getItem(STORAGE_KEYS.complete) === "true";
+      return savedScores &&
+        typeof savedScores === "object" &&
+        !Array.isArray(savedScores)
+        ? savedScores
+        : {};
     } catch {
-      unlocked = 0;
-      winScores = {};
+      return {};
     }
+  }
+
+  function isStoredCampaignComplete() {
+    return (
+      localStorage.getItem(STORAGE_KEYS.campaignComplete) === "true" &&
+      unlocked === FINAL_STAGE_INDEX &&
+      Object.prototype.hasOwnProperty.call(winScores, FINAL_STAGE_INDEX)
+    );
   }
 
   function resetCampaign() {
     localStorage.removeItem(STORAGE_KEYS.progress);
     localStorage.removeItem(STORAGE_KEYS.wins);
-    localStorage.removeItem(STORAGE_KEYS.complete);
+    localStorage.removeItem(STORAGE_KEYS.campaignComplete);
 
     unlocked = 0;
     winScores = {};
@@ -121,37 +158,15 @@
     renderMap();
   }
 
-  const difficultyButtons = document.querySelectorAll(".difficulty");
-
-  difficultyButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      difficulty = button.dataset.difficulty;
-
-      difficultyButtons.forEach((item) => {
-        const selected = item === button;
-        item.classList.toggle("active", selected);
-        item.setAttribute("aria-checked", String(selected));
-      });
-      const profile = DIFFICULTY_SETTINGS[difficulty];
-      $("#progressText").textContent =
-        "Difficulty ready: " +
-        difficulty +
-        " (modifier: " +
-        profile.modifier +
-        ")";
-      playKeySound();
-    });
-  });
-
   function renderMap() {
     renderCampaignMap({
-      worldMap: worldMap,
+      worldMap,
       stages: STAGES,
       unlocked,
       winScores,
       campaignComplete,
-      onStageSelect: (index) => {
-        if (index <= unlocked) startStage(index);
+      onStageSelect: (stageIndex) => {
+        if (stageIndex <= unlocked) startStage(stageIndex);
       },
     });
     $("#progressText").textContent = getProgressText();
@@ -159,7 +174,7 @@
 
   function getProgressText() {
     if (campaignComplete) {
-      return "Campaign complete";
+      return `${STAGES.length} / ${STAGES.length} unlocked · Campaign complete`;
     }
 
     return `${unlocked + 1} / ${STAGES.length} stages unlocked · Destination: ${STAGES[unlocked].name}`;
@@ -431,7 +446,9 @@
       unlocked,
       Math.min(currentStage + 1, FINAL_STAGE_INDEX),
     );
-    campaignComplete = currentStage === FINAL_STAGE_INDEX;
+    if (currentStage === FINAL_STAGE_INDEX) {
+      campaignComplete = true;
+    }
     saveProgress();
   }
 
