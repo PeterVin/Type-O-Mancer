@@ -62,6 +62,18 @@ textarea:focus-visible {
   justify-content: space-between;
   gap: 18px;
 }
+.header-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  min-width: 150px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #070b164d;
+  backdrop-filter: blur(8px);
+}
 .eyebrow,
 .loadout-kicker,
 .map-kicker {
@@ -97,15 +109,47 @@ h1 {
   border: 0;
   cursor: pointer;
 }
-.sound-toggle {
-  display: inline-flex;
+.sound-toggle,
+.reset-button {
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 11px 14px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: #ffffff0d;
-  font-size: 0.82rem;
+  width: 100%;
+  min-height: 36px;
+  padding: 8px 11px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+.sound-toggle:hover {
+  border-color: var(--accent);
+  background: #74efad12;
+}
+.reset-button {
+  position: relative;
+  color: var(--muted);
+}
+.reset-button::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 10px;
+  right: 10px;
+  height: 1px;
+  background: var(--line);
+  pointer-events: none;
+}
+.reset-button:hover {
+  border-color: #ff5d7740;
+  background: #ff5d7710;
+  color: #ff8b9d;
 }
 .loadout {
   margin: 36px 0 22px;
