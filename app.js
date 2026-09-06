@@ -193,19 +193,26 @@
 
   function prepareBattle() {
     stopRace();
+    clearTransientTimers();
     playerCursor = 0;
     playerCorrect = 0;
     playerMistakes = 0;
-    running = false;
-    finished = false;
     elapsed = 0;
     botCursor = 0;
+    running = false;
+    finished = false;
     playerStunned = false;
     botStunned = false;
-    window.clearTimeout(playerStunTimer);
-    window.clearTimeout(botStunTimer);
     typingInput.value = "";
     $("#timer").textContent = "00:00";
+    playerState.textContent = "Your first key starts the duel.";
+    enemyState.textContent = "Waiting for you...";
+    playerSpeech.textContent = "Ready when you are.";
+    enemySpeech.textContent = STAGES[currentStage].encounter;
+    playerBubble.classList.remove("stunned");
+    enemyBubble.classList.remove("stunned");
+    playerRune.classList.remove("stunned");
+    enemyRune.classList.remove("stunned");
     renderPlayer();
     renderBot();
     updateStats();
@@ -388,6 +395,13 @@
     botTimer = null;
   }
 
+  function clearTransientTimers() {
+    window.clearTimeout(playerStunTimer);
+    window.clearTimeout(botStunTimer);
+    playerStunTimer = null;
+    botStunTimer = null;
+  }
+
   typingInput.addEventListener("keydown", (event) => {
     if (
       finished ||
@@ -425,8 +439,10 @@
 
   function endBattle(victory) {
     if (finished) return;
+
     finished = true;
     stopRace();
+    clearTransientTimers();
     const stage = STAGES[currentStage];
     const score = currentWpm(playerCorrect);
     if (victory) {
@@ -477,28 +493,23 @@
     };
   }
 
-  $("#restartBattle").addEventListener("click", prepareBattle);
-  $("#leaveBattle").addEventListener("click", () => {
+  function closeToMap() {
     stopRace();
-    battleScreen.hidden = true;
-    mapScreen.hidden = false;
-    renderMap();
-  });
-
-  $("#backToMap").addEventListener("click", () => {
+    clearTransientTimers();
     resultModal.hidden = true;
     battleScreen.hidden = true;
     mapScreen.hidden = false;
     renderMap();
-  });
+  }
+
+  $("#restartBattle").addEventListener("click", prepareBattle);
+  $("#leaveBattle").addEventListener("click", closeToMap);
+
+  $("#backToMap").addEventListener("click", closeToMap);
   $("#nextStage").addEventListener("click", () => {
     resultModal.hidden = true;
     if (currentStage < FINAL_STAGE_INDEX) startStage(currentStage + 1);
-    else {
-      battleScreen.hidden = true;
-      mapScreen.hidden = false;
-      renderMap();
-    }
+    else closeToMap();
   });
 
   $("#soundToggle").addEventListener("click", () => {
