@@ -207,6 +207,7 @@
     typingInput.value = "";
     $("#timer").textContent = "00:00";
     renderPlayer();
+    renderBot();
     updateStats();
     typingInput.focus();
   }
@@ -305,27 +306,23 @@
   }
 
   function renderBot(errorAt = -1) {
-    enemyRune.replaceChildren();
+    const runes = document.createDocumentFragment();
+
     [...challenge].forEach((char, index) => {
-      const state =
-        index < botCursor
-          ? "correct"
-          : index === botCursor
-            ? errorAt === index
-              ? "wrong"
-              : "current"
-            : "";
-      enemyRune.append(letterSpan(char, state));
+      const state = getLetterState(index, botCursor, errorAt);
+      runes.append(letterSpan(char, state));
     });
+
+    enemyRune.replaceChildren(runes);
   }
 
-  function stunBot(delay) {
-    renderBot(botCursor);
+  function setBotStun(delay) {
     botStunned = true;
     enemyBubble.classList.add("stunned");
     enemyState.textContent = "Mistake! Correcting...";
     enemySpeech.textContent = STAGES[currentStage].dizzy;
-
+    renderBot(botCursor);
+    window.clearTimeout(botStunTimer);
     botStunTimer = window.setTimeout(() => {
       botStunned = false;
       enemyBubble.classList.remove("stunned");
@@ -355,18 +352,20 @@
       if (!running || finished || botStunned) return;
       const profile = botProfile();
       if (Math.random() < profile.errorRate && challenge[botCursor] !== " ") {
-        stunBot(profile.correction);
+        setBotStun(profile.correction);
         return;
       }
       enemyState.textContent = "I will crush you!";
       botCursor += 1;
       renderBot();
       updateStats();
-      if (botCursor >= challenge.length) {
-        endBattle(false);
-        return;
-      }
-      scheduleBot(Math.max(45, Math.round(60000 / (profile.wpm * 5))));
+      if (botCursor >= challenge.length) return endBattle(false);
+      const charDelay = Math.max(
+        45,
+        Math.round((60000 / (profile.wpm * 5)) * (0.85 + Math.random() * 0.25)),
+      );
+
+      scheduleBot(charDelay);
     }, delay);
   }
 
@@ -384,8 +383,8 @@
   function stopRace() {
     running = false;
     window.clearInterval(clock);
+    window.clearTimeout(botTimer);
     clock = null;
-    window.clearInterval(botTimer);
     botTimer = null;
   }
 
@@ -523,6 +522,5 @@
     resetCampaign();
   });
 
-  restoreProgress();
   renderMap();
 })();
