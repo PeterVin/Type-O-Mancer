@@ -424,6 +424,9 @@ h1 {
 .player-speech {
   border-radius: 12px 12px 12px 2px;
 }
+.enemy-speech {
+  text-align: left;
+}
 .versus {
   z-index: 1;
   align-self: center;
