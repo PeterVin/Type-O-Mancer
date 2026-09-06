@@ -180,25 +180,6 @@
     return `${unlocked + 1} / ${STAGES.length} stages unlocked · Destination: ${STAGES[unlocked].name}`;
   }
 
-  function renderTyping(target, cursor, errorAt = -1) {
-    const restoreFocus = document.activeElement === typingInput;
-    const input = target.id === "playerRune" ? typingInput : null;
-    const runes = document.createDocumentFragment();
-    Array.from(challenge).forEach((character, index) => {
-      const span = document.createElement("span");
-      span.className = "rune-char";
-      if (index < cursor) span.classList.add("correct");
-      if (index === cursor && errorAt === index) span.classList.add("wrong");
-      else if (index === cursor && !finished) span.classList.add("current");
-      if (character === " ") span.classList.add("space");
-      span.textContent = character;
-      runes.append(span);
-    });
-    if (input) target.replaceChildren(runes, input);
-    else target.replaceChildren(runes);
-    if (restoreFocus && !finished) typingInput?.focus();
-  }
-
   function getSpriteUrl(sprite) {
     return `url('assets/characters/${sprite}.png')`;
   }
@@ -225,8 +206,7 @@
     window.clearTimeout(botStunTimer);
     typingInput.value = "";
     $("#timer").textContent = "00:00";
-    renderTyping(playerRune, playerCursor);
-    renderTyping(enemyRune, botCursor);
+    renderPlayer();
     updateStats();
     typingInput.focus();
   }
@@ -284,6 +264,30 @@
     span.className = `rune-char${char === " " ? " space" : ""}${className ? ` ${className}` : ""}`;
     span.textContent = char;
     return span;
+  }
+
+  function getLetterState(index, cursor, errorAt = -1) {
+    if (index < cursor) return "correct";
+    if (index === cursor && errorAt === index) return "wrong";
+    if (index === cursor && !finished) return "current";
+
+    return "";
+  }
+
+  function renderPlayer(errorAt = -1) {
+    const restoreFocus = document.activeElement === typingInput;
+    const runes = document.createDocumentFragment();
+
+    [...challenge].forEach((char, index) => {
+      const state = getLetterState(index, playerCursor, errorAt);
+      runes.append(letterSpan(char, state));
+    });
+
+    playerRune.replaceChildren(runes, typingInput);
+
+    if (restoreFocus && !finished && !playerStunned) {
+      typingInput.focus();
+    }
   }
 
   function botProfile() {
@@ -408,15 +412,15 @@
       playerState.textContent = "Keep typing.";
       updateStats();
 
-      renderTyping(playerRune, playerCursor);
+      renderPlayer();
       if (playerCursor === challenge.length) {
         endBattle(true);
       }
     } else {
       playerMistakes++;
       playKeyFailSound();
-      renderTyping(playerRune, playerCursor, playerCursor);
       stunPlayer();
+      renderPlayer(playerCursor);
     }
   });
 
