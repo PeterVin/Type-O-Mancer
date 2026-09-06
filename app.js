@@ -301,7 +301,7 @@
           currentStage * 0.009 +
           DIFFICULTY_SETTINGS[difficulty].errorModifier,
       ),
-      correction: [2000, 1000, 750, 500, 250][Math.min(tier, 4)],
+      correction: [2500, 2200, 2000, 1800, 1600][Math.min(tier, 4)],
     };
   }
 
