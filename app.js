@@ -220,6 +220,7 @@
   }
 
   function startStage(index) {
+    resultModal.classList.remove("legendary-victory");
     currentStage = index;
     const stage = STAGES[index];
     challenge = stage.texts[Math.floor(Math.random() * stage.texts.length)];
@@ -443,8 +444,13 @@
     finished = true;
     stopRace();
     clearTransientTimers();
+
     const stage = STAGES[currentStage];
     const score = currentWpm(playerCorrect);
+    const finalWin = victory && campaignComplete;
+
+    resultModal.classList.toggle("legendary-victory", finalWin);
+
     if (victory) {
       updateVictoryProgress(score);
       playWinSound();
@@ -496,6 +502,7 @@
   function closeToMap() {
     stopRace();
     clearTransientTimers();
+    resultModal.classList.remove("legendary-victory");
     resultModal.hidden = true;
     battleScreen.hidden = true;
     mapScreen.hidden = false;
