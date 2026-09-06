@@ -74,14 +74,6 @@
         item.classList.toggle("active", selected);
         item.setAttribute("aria-checked", String(selected));
       });
-      const profile = DIFFICULTY_SETTINGS[difficulty];
-      $("#progressText").textContent =
-        "Difficulty ready: " +
-        difficulty +
-        " (modifier: " +
-        profile.modifier +
-        ")";
-      playKeySound();
     });
   });
 
