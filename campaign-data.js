@@ -4,9 +4,9 @@
   const ASSET_PATH = "assets";
 
   const DIFFICULTY_SETTINGS = {
-    easy: { modifier: -6, errorModifier: 0.08 },
-    medium: { modifier: 4, errorModifier: 0 },
-    hard: { modifier: 15, errorModifier: -0.06 },
+    easy: { modifier: -6, errorModifier: 0.06 },
+    medium: { modifier: 0, errorModifier: 0.02 },
+    hard: { modifier: 7, errorModifier: -0.02 },
   };
 
   const SPRITES = {
