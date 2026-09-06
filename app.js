@@ -334,7 +334,7 @@
     }, delay);
   }
 
-  function stunPlayer() {
+  function setPlayerStun() {
     playerStunned = true;
     playerBubble.classList.add("stunned");
     playerState.textContent = "Dizzy! Recovering for 2 seconds...";
@@ -419,8 +419,8 @@
     } else {
       playerMistakes++;
       playKeyFailSound();
-      stunPlayer();
       renderPlayer(playerCursor);
+      setPlayerStun();
     }
   });
 
