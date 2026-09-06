@@ -1,38 +1,58 @@
 (() => {
   "use strict";
-
-  const $ = (selector) => document.querySelector(selector);
   const { DIFFICULTY_SETTINGS, STAGES, SPRITES } = window.TypeOMancerCampaign;
   const { renderMap: renderCampaignMap } = window.TypeOMancerMap;
-  let difficulty = "easy";
-  let unlocked = 0;
-  let currentStage = 0;
-  let campaignComplete = false;
-  let playerCursor = 0;
-  let playerCorrect = 0;
-  let playerMistakes = 0;
-  let playerStunned = false;
-  let playerStunTimer = null;
-  let botCursor = 0;
-  let botTimer = null;
-  let botStunned = false;
-  let botStunTimer = null;
-  let elapsed = 0;
-  let challenge = "";
-  let winScores = {};
-  let running = false;
-  let finished = false;
-  let clock = null;
-  let soundEnabled = true;
+
+  const $ = (selector) => document.querySelector(selector);
+  const mapScreen = $("#mapScreen");
+  const battleScreen = $("#battleScreen");
+  const worldMap = $("#worldMap");
+  const resultModal = $("#resultModal");
+  const playerBubble = $("#playerBubble");
+  const playerRune = $("#playerRune");
+  const playerState = $("#playerState");
+  const playerSpeech = $("#playerSpeech");
+  const enemyBubble = $("#enemyBubble");
+  const enemyRune = $("#enemyRune");
+  const enemyState = $("#enemyState");
+  const enemySpeech = $("#enemySpeech");
+  const typingInput = $("#typingInput");
+
   const KEY_SOUND = "audio/mixkit-hard-single-key-press-in-a-laptop-2542.wav";
   const KEY_FAIL_SOUND = "audio/mixkit-single-key-type-2533.wav";
   const WIN_SOUND = "audio/mixkit-successful-horns-fanfare-722.wav";
   const DEFEAT_SOUND = "audio/mixkit-slow-sad-trombone-fail-472.wav";
+  const FINAL_STAGE_INDEX = STAGES.length - 1;
   const STORAGE_KEYS = {
     progress: "typeforge-progress",
     wins: "typeforge-wins",
-    complete: "typeforge-campaign-complete",
+    campaignComplete: "typeforge-campaign-complete",
   };
+
+  let difficulty = "easy",
+    currentStage = 0,
+    challenge = "",
+    playerCursor = 0,
+    botCursor = 0;
+
+  let playerCorrect = 0,
+    playerMistakes = 0,
+    elapsed = 0;
+
+  let running = false,
+    finished = false,
+    playerStunned = false,
+    botStunned = false;
+
+  let clock = null,
+    botTimer = null,
+    playerStunTimer = null,
+    botStunTimer = null;
+
+  let campaignComplete = false;
+  let winScores = {};
+  let soundEnabled = true;
+  let unlocked = 0;
 
   function playAudio(src, volume = 0.72, playbackRate = 1) {
     if (!soundEnabled) return;
@@ -74,7 +94,7 @@
         10,
       );
       unlocked = Number.isInteger(value)
-        ? Math.min(Math.max(value, 0), STAGES.length - 1)
+        ? Math.min(Math.max(value, 0), FINAL_STAGE_INDEX)
         : 0;
       const scores = JSON.parse(
         localStorage.getItem(STORAGE_KEYS.wins) || "{}",
@@ -125,7 +145,7 @@
 
   function renderMap() {
     renderCampaignMap({
-      worldMap: $("#worldMap"),
+      worldMap: worldMap,
       stages: STAGES,
       unlocked,
       winScores,
@@ -146,8 +166,8 @@
   }
 
   function renderTyping(target, cursor, errorAt = -1) {
-    const restoreFocus = document.activeElement === $("#typingInput");
-    const input = target.id === "playerRune" ? $("#typingInput") : null;
+    const restoreFocus = document.activeElement === typingInput;
+    const input = target.id === "playerRune" ? typingInput : null;
     const runes = document.createDocumentFragment();
     Array.from(challenge).forEach((character, index) => {
       const span = document.createElement("span");
@@ -161,7 +181,7 @@
     });
     if (input) target.replaceChildren(runes, input);
     else target.replaceChildren(runes);
-    if (restoreFocus && !finished) $("#typingInput")?.focus();
+    if (restoreFocus && !finished) typingInput?.focus();
   }
 
   function getSpriteUrl(sprite) {
@@ -188,26 +208,26 @@
     botStunned = false;
     window.clearTimeout(playerStunTimer);
     window.clearTimeout(botStunTimer);
-    $("#typingInput").value = "";
+    typingInput.value = "";
     $("#timer").textContent = "00:00";
-    renderTyping($("#playerRune"), playerCursor);
-    renderTyping($("#enemyRune"), botCursor);
+    renderTyping(playerRune, playerCursor);
+    renderTyping(enemyRune, botCursor);
     updateStats();
-    $("#typingInput").focus();
+    typingInput.focus();
   }
 
   function startStage(index) {
     currentStage = index;
     const stage = STAGES[index];
     challenge = stage.texts[Math.floor(Math.random() * stage.texts.length)];
-    $("#mapScreen").hidden = true;
-    $("#battleScreen").hidden = false;
-    $("#battleScreen").className = `battle-screen region-${stage.regionClass}`;
+    mapScreen.hidden = true;
+    battleScreen.hidden = false;
+    battleScreen.className = `battle-screen region-${stage.regionClass}`;
     $("#regionName").textContent = stage.region;
     $("#stageName").textContent = stage.name;
     $("#enemyName").textContent = stage.enemyName;
-    $("#playerSpeech").textContent = "Ready when you are.";
-    $("#enemySpeech").textContent = stage.encounter;
+    playerSpeech.textContent = "Ready when you are.";
+    enemySpeech.textContent = stage.encounter;
     renderCharacters();
     prepareBattle();
   }
@@ -266,7 +286,7 @@
   }
 
   function renderBot(errorAt = -1) {
-    $("#enemyRune").replaceChildren();
+    enemyRune.replaceChildren();
     [...challenge].forEach((char, index) => {
       const state =
         index < botCursor
@@ -276,38 +296,38 @@
               ? "wrong"
               : "current"
             : "";
-      $("#enemyRune").append(letterSpan(char, state));
+      enemyRune.append(letterSpan(char, state));
     });
   }
 
   function stunBot(delay) {
     renderBot(botCursor);
     botStunned = true;
-    $("#enemyBubble").classList.add("stunned");
-    $("#enemyState").textContent = "Mistake! Correcting...";
-    $("#enemySpeech").textContent = STAGES[currentStage].dizzy;
+    enemyBubble.classList.add("stunned");
+    enemyState.textContent = "Mistake! Correcting...";
+    enemySpeech.textContent = STAGES[currentStage].dizzy;
 
     botStunTimer = window.setTimeout(() => {
       botStunned = false;
-      $("#enemyBubble").classList.remove("stunned");
-      $("#enemySpeech").textContent = STAGES[currentStage].recover;
+      enemyBubble.classList.remove("stunned");
+      enemySpeech.textContent = STAGES[currentStage].recover;
       scheduleBot(60);
     }, delay);
   }
 
   function stunPlayer() {
     playerStunned = true;
-    $("#playerBubble").classList.add("stunned");
-    $("#playerState").textContent = "Dizzy! Recovering for 2 seconds...";
-    $("#playerSpeech").textContent = "Stars...everywhere...";
+    playerBubble.classList.add("stunned");
+    playerState.textContent = "Dizzy! Recovering for 2 seconds...";
+    playerSpeech.textContent = "Stars...everywhere...";
     window.clearTimeout(playerStunTimer);
     playerStunTimer = window.setTimeout(() => {
       if (finished) return;
       playerStunned = false;
-      $("#playerBubble").classList.remove("stunned");
-      $("#playerState").textContent = "Recovered. Keep typing.";
-      $("#playerSpeech").textContent = "Back in the fight.";
-      $("#typingInput").focus();
+      playerBubble.classList.remove("stunned");
+      playerState.textContent = "Recovered. Keep typing.";
+      playerSpeech.textContent = "Back in the fight.";
+      typingInput.focus();
     }, 2000);
   }
 
@@ -319,7 +339,7 @@
         stunBot(profile.correction);
         return;
       }
-      $("#enemyState").textContent = "I will crush you!";
+      enemyState.textContent = "I will crush you!";
       botCursor += 1;
       renderBot();
       updateStats();
@@ -350,7 +370,7 @@
     botTimer = null;
   }
 
-  $("#typingInput").addEventListener("keydown", (event) => {
+  typingInput.addEventListener("keydown", (event) => {
     if (
       finished ||
       event.ctrlKey ||
@@ -370,17 +390,17 @@
       playerCursor++;
       playerCorrect++;
       playKeySound();
-      $("#playerState").textContent = "Keep typing.";
+      playerState.textContent = "Keep typing.";
       updateStats();
 
-      renderTyping($("#playerRune"), playerCursor);
+      renderTyping(playerRune, playerCursor);
       if (playerCursor === challenge.length) {
         endBattle(true);
       }
     } else {
       playerMistakes++;
       playKeyFailSound();
-      renderTyping($("#playerRune"), playerCursor, playerCursor);
+      renderTyping(playerRune, playerCursor, playerCursor);
       stunPlayer();
     }
   });
@@ -402,16 +422,16 @@
     $("#resultTitle").textContent = result.title;
     $("#resultCopy").textContent = result.copy;
     $("#nextStage").hidden = !victory || campaignComplete;
-    $("#resultModal").hidden = false;
+    resultModal.hidden = false;
   }
 
   function updateVictoryProgress(score) {
     winScores[currentStage] = Math.max(winScores[currentStage] || 0, score);
     unlocked = Math.max(
       unlocked,
-      Math.min(currentStage + 1, STAGES.length - 1),
+      Math.min(currentStage + 1, FINAL_STAGE_INDEX),
     );
-    campaignComplete = currentStage === STAGES.length - 1;
+    campaignComplete = currentStage === FINAL_STAGE_INDEX;
     saveProgress();
   }
 
@@ -440,23 +460,23 @@
   $("#restartBattle").addEventListener("click", prepareBattle);
   $("#leaveBattle").addEventListener("click", () => {
     stopRace();
-    $("#battleScreen").hidden = true;
-    $("#mapScreen").hidden = false;
+    battleScreen.hidden = true;
+    mapScreen.hidden = false;
     renderMap();
   });
 
   $("#backToMap").addEventListener("click", () => {
-    $("#resultModal").hidden = true;
-    $("#battleScreen").hidden = true;
-    $("#mapScreen").hidden = false;
+    resultModal.hidden = true;
+    battleScreen.hidden = true;
+    mapScreen.hidden = false;
     renderMap();
   });
   $("#nextStage").addEventListener("click", () => {
-    $("#resultModal").hidden = true;
-    if (currentStage < STAGES.length - 1) startStage(currentStage + 1);
+    resultModal.hidden = true;
+    if (currentStage < FINAL_STAGE_INDEX) startStage(currentStage + 1);
     else {
-      $("#battleScreen").hidden = true;
-      $("#mapScreen").hidden = false;
+      battleScreen.hidden = true;
+      mapScreen.hidden = false;
       renderMap();
     }
   });
