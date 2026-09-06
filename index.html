@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#090b16" />
     <title>Type-O-Mancer: Realm Run</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/base.css" />
+    <link rel="stylesheet" href="styles/game.css" />
   </head>
   <body>
     <noscript>
@@ -19,7 +20,7 @@
         <header class="game-header">
           <div>
             <p class="eyebrow">Type-O-Mancer</p>
-            <h1 class="game-title">Realm Run</h1>
+            <h1 id="gameTitle">Realm Run</h1>
             <p class="subtitle">
               Race every guardian. Type fast, stay accurate, and master the map.
             </p>
@@ -89,14 +90,14 @@
           </div>
           <div class="world-map" id="worldMap" aria-live="polite"></div>
           <p class="map-hint">
-            Gold outline: your current destination. Hidden enemies lurk in the
-            shadows. Grey marks: defeated guardians.
+            Gold outline: your current destination. Grey marks: defeated
+            guardians. Hidden enemies lurk beneath the fog.
           </p>
         </section>
       </section>
       <div class="modal-backdrop" id="resetModal" hidden>
         <section
-          class="result-modal reset-modal"
+          class="result-modal"
           role="dialog"
           aria-modal="true"
           aria-labelledby="resetTitle"
@@ -129,7 +130,7 @@
             <span id="regionName"></span><strong id="stageName"></strong>
           </div>
           <div class="timer-box">
-            <span>&#x231B; TIME <strong id="timer">00:00</strong></span>
+            <span>&#x231B; TIME </span><strong id="timer">00:00</strong>
           </div>
         </header>
         <div class="battle-arena">
@@ -138,13 +139,13 @@
               <span>YOU</span><strong>Keyboard Knight</strong>
             </div>
             <div class="health-line">
-              <span class="healt-title">VITALITY</span>
+              <span class="health-title">VITALITY</span>
               <div class="health-bar player-health">
                 <span id="playerHealthFill"></span>
               </div>
               <small id="playerHealthText">100%</small>
             </div>
-            <div class="avatar-bubble player-bubble" id="playerBubble">
+            <div class="avatar-bubble" id="playerBubble">
               <div class="sprite player-sprite" aria-hidden="true"></div>
               <span class="dizzy-stars" aria-hidden="true">
                 <span style="--i: 0">&#x2726;</span>
@@ -161,7 +162,7 @@
           </section>
           <div class="versus" aria-hidden="true">VS</div>
           <section class="fighter enemy-fighter">
-            <div class="avatar-bubble enemy-bubble" id="enemyBubble">
+            <div class="avatar-bubble" id="enemyBubble">
               <div class="sprite" id="enemySprite" aria-hidden="true"></div>
               <span class="dizzy-stars" aria-hidden="true">
                 <span style="--i: 0">&#x2726;</span>
@@ -172,24 +173,22 @@
                 <span style="--i: 5">&#x2727;</span>
               </span>
             </div>
-            <div class="fighter-label enemy-label">
+            <div class="fighter-label">
               <span>GUARDIAN</span><strong id="enemyName"></strong>
             </div>
             <div class="health-line">
-              <span class="healt-title">VITALITY</span>
+              <span class="health-title">VITALITY</span>
               <div class="health-bar enemy-health">
                 <span id="enemyHealthFill"></span>
               </div>
               <small id="enemyHealthText">100%</small>
             </div>
-            <div class="speech-bubble enemy-speech" id="enemySpeech">
-              I will crush you!
-            </div>
+            <div class="speech-bubble" id="enemySpeech">I will crush you!</div>
           </section>
         </div>
         <section class="duel-panel">
           <div class="battle-stats">
-            <span>YOUR ACCURACY: <strong id="accuracy">0%</strong></span>
+            <span>YOUR ACCURACY: <strong id="accuracy">100%</strong></span>
             <span>YOUR SPEED: <strong id="wpm">0 WPM</strong></span>
             <span>RIVAL SPEED: <strong id="pcWpm">0 WPM</strong></span>
           </div>
@@ -204,7 +203,7 @@
               aria-label="Guardian typing progress"
             ></div>
           </div>
-          <div class="typing-lane player-lane">
+          <div class="typing-lane">
             <div class="lane-heading">
               <span>YOUR SPELL</span>
               <small id="playerState">Your first key starts the duel.</small>
@@ -240,7 +239,7 @@
           <p id="resultCopy"></p>
           <div class="result-actions">
             <button class="primary-button" id="nextStage" type="button">
-              Next destination
+              Next destination &#x2192;
             </button>
             <button class="secondary-button" id="backToMap" type="button">
               Return to map

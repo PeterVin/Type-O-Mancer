@@ -1,0 +1,450 @@
+.sprite {
+  background-image: none;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  mix-blend-mode: normal;
+}
+
+.avatar-bubble .sprite {
+  position: relative;
+  z-index: 1;
+  width: 92%;
+  height: 92%;
+  border-radius: inherit;
+  filter: drop-shadow(0 5px 5px #0007);
+}
+
+.avatar-bubble.stunned {
+  animation: stagger 0.26s linear infinite;
+  filter: saturate(0.4) brightness(1.2);
+}
+@keyframes stagger {
+  25% {
+    transform: translate(-4px, 1px) rotate(-3deg);
+  }
+  75% {
+    transform: translate(4px, -1px) rotate(3deg);
+  }
+}
+
+.map-hero {
+  width: 10%;
+  filter: drop-shadow(0 3px 3px #000) brightness(1.15);
+}
+
+.wpm-badge {
+  position: absolute;
+  z-index: 2;
+  bottom: 43%;
+  left: 50%;
+  min-width: 53px;
+  padding: 3px 5px;
+  transform: translateX(-50%);
+  border: 1px solid #aeb5c077;
+  border-radius: 4px;
+  color: #c8cdd5;
+  background: #1a1d23e6;
+  font:
+    700 0.6rem Orbitron,
+    sans-serif;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.map-node {
+  z-index: 2;
+  transform: none;
+}
+
+.map-node.locked {
+  cursor: not-allowed;
+  filter: blur(0.25px);
+}
+
+.map-node.done {
+  filter: grayscale(1) saturate(0.15) brightness(0.72);
+}
+
+.map-node.done::after {
+  content: "";
+  inset: 10%;
+  background:
+    linear-gradient(
+      48deg,
+      transparent 43%,
+      #a5abb3e8 45%,
+      #a5abb3e8 51%,
+      transparent 53%
+    ),
+    linear-gradient(
+      -48deg,
+      transparent 43%,
+      #a5abb3e8 45%,
+      #a5abb3e8 51%,
+      transparent 53%
+    );
+  filter: drop-shadow(0 1px 1px #000);
+  transform: none;
+  opacity: 0.92;
+}
+
+.map-node.active {
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
+  filter: none;
+  animation: none;
+}
+
+.map-node.active::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -38%;
+  border: 3px solid #ffe39a;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    transparent 42%,
+    #f8a91b30 56%,
+    #ffcf4e17 69%,
+    transparent 72%
+  );
+  box-shadow:
+    0 0 0 4px #bc6e0d80,
+    0 0 16px 8px #ffbd218f,
+    0 0 42px 17px #e8890c70,
+    inset 0 0 18px #ffdb6f66;
+  animation: epic-gold-pulse 1.75s ease-in-out infinite;
+}
+
+@keyframes epic-gold-pulse {
+  50% {
+    transform: scale(1.12);
+    opacity: 0.72;
+    box-shadow:
+      0 0 0 6px #ffd3645e,
+      0 0 29px 13px #ffc1249f,
+      0 0 52px 25px #ed920461,
+      inset 0 0 25px #ffe08a80;
+  }
+}
+
+.map-hero {
+  z-index: 5;
+  width: 7.7%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 2px solid #ffe3a0;
+  border-radius: 50%;
+  background-color: #0a1324;
+  box-shadow:
+    0 0 0 3px #5f3306,
+    0 0 20px #ffc540a6,
+    0 6px 10px #000c;
+  transform: translate(-50%, -92%);
+  filter: brightness(1.12) saturate(1.08);
+}
+
+.map-hero.sprite {
+  height: auto;
+}
+
+.map-node {
+  width: var(--site-width);
+  height: var(--site-height);
+  aspect-ratio: auto;
+  background: transparent;
+  filter: none;
+  overflow: visible;
+}
+
+.map-node::before,
+.map-node::after {
+  content: none;
+}
+
+.map-node.locked::after,
+.map-node.done::after,
+.map-node.active::before {
+  content: none;
+}
+
+.site-mask {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.site-mask img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.map-node.locked {
+  background: transparent;
+  filter: none;
+}
+
+.map-node.locked .site-mask {
+  filter: drop-shadow(0 3px 4px #000d);
+}
+
+.map-node.locked .site-mask img {
+  filter: brightness(0) contrast(180%);
+  opacity: 0.98;
+}
+
+.map-node.done {
+  background: transparent;
+  filter: none;
+}
+
+.map-node.done .site-mask {
+  background: transparent;
+  filter: none;
+}
+
+.map-node.done .site-mask img {
+  opacity: 0.9;
+  filter: grayscale(1) saturate(0.15) brightness(0.72);
+}
+
+.map-node.done .site-mask::after {
+  content: "";
+  position: absolute;
+  width: 72%;
+  aspect-ratio: 1;
+  left: 50%;
+  top: 49%;
+  transform: translate(-50%, -50%);
+  background:
+    linear-gradient(
+      48deg,
+      transparent 43%,
+      #adb1b8ef 45%,
+      #adb1b8ef 51%,
+      transparent 53%
+    ),
+    linear-gradient(
+      -48deg,
+      transparent 43%,
+      #adb1b8ef 45%,
+      #adb1b8ef 51%,
+      transparent 53%
+    );
+  filter: drop-shadow(0 1px 1px #000);
+}
+
+.map-node.active {
+  background: transparent;
+  box-shadow: none;
+  filter: none;
+  animation: none;
+}
+
+.map-node.active .site-mask {
+  filter: none;
+}
+
+.map-node.active .site-mask img {
+  filter: drop-shadow(1px 0 0 #fff3b0) drop-shadow(-1px 0 0 #fff3b0)
+    drop-shadow(0 1px 0 #fff3b0) drop-shadow(0 -1px 0 #fff3b0)
+    drop-shadow(0 0 4px #ffd95a) drop-shadow(0 0 10px #ffb21f)
+    drop-shadow(0 0 17px #d97600);
+  animation: site-aura-pulse 1.65s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes site-aura-pulse {
+  50% {
+    filter: drop-shadow(1px 0 0 #fff8cf) drop-shadow(-1px 0 0 #fff8cf)
+      drop-shadow(0 1px 0 #fff8cf) drop-shadow(0 -1px 0 #fff8cf)
+      drop-shadow(0 0 7px #ffe26d) drop-shadow(0 0 15px #ffc02f)
+      drop-shadow(0 0 25px #e98508);
+    transform: scale(1.025);
+  }
+}
+
+.final-victory {
+  position: absolute;
+  z-index: 4;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.final-victory img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px #ffd34caa) drop-shadow(0 6px 6px #000c);
+}
+
+.final-victory.revealed::after {
+  content: "CONGRATULATIONS";
+  position: absolute;
+  left: 50%;
+  bottom: -18%;
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border: 1px solid #ffe39a;
+  border-radius: 999px;
+  color: #fff0b8;
+  background: #241506d9;
+  box-shadow: 0 0 14px #ffbd319c;
+  font:
+    800 0.48rem Orbitron,
+    sans-serif;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.modal-backdrop.legendary-victory {
+  background:
+    radial-gradient(
+      circle at center,
+      #ffce4a34 0 18%,
+      #8b53151f 38%,
+      #03050de0 75%
+    ),
+    #03050dda;
+}
+
+.legendary-victory .result-modal {
+  position: relative;
+  overflow: visible;
+  border-color: #ffe39a;
+  background: linear-gradient(145deg, #5b390d, #1f150a 48%, #100d12);
+  box-shadow:
+    0 0 0 1px #8d5b16,
+    0 0 32px 11px #ffbd3173,
+    0 0 90px 28px #e895183b;
+  animation: legendary-modal-glow 2.1s ease-in-out infinite;
+}
+
+.legendary-victory .result-modal::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -26px;
+  border-radius: 30px;
+  background: radial-gradient(
+    ellipse,
+    #ffcf4b73 0 28%,
+    #ea971c2b 48%,
+    transparent 73%
+  );
+  filter: blur(10px);
+  animation: legendary-aura 2.1s ease-in-out infinite;
+}
+
+.legendary-victory .result-rune {
+  color: #4a2b05;
+  background: radial-gradient(circle at 35% 28%, #fff7c5, #ffd35c 48%, #c8780d);
+  box-shadow:
+    0 0 20px #ffdc6a,
+    0 0 42px #f3a124a8;
+}
+
+.legendary-victory #resultEyebrow,
+.legendary-victory .result-modal h2 {
+  color: #ffe7a1;
+  text-shadow: 0 0 12px #ffb62f99;
+}
+
+.legendary-victory .primary-button {
+  color: #2c1804;
+  background: linear-gradient(135deg, #fff0a8, #ffc13d 55%, #d88a12);
+  box-shadow:
+    0 5px 16px #0008,
+    0 0 19px #ffbe3e7d;
+}
+
+@keyframes legendary-modal-glow {
+  50% {
+    box-shadow:
+      0 0 0 1px #fff0ae,
+      0 0 42px 16px #ffca4b99,
+      0 0 105px 36px #e8951854;
+  }
+}
+
+@keyframes legendary-aura {
+  50% {
+    transform: scale(1.07);
+    opacity: 0.75;
+  }
+}
+
+.map-hero {
+  display: none;
+}
+
+.avatar-bubble {
+  isolation: isolate;
+  overflow: visible;
+  background: radial-gradient(
+    circle at 35% 28%,
+    color-mix(in srgb, var(--region-accent) 72%, #fff) 0%,
+    var(--region-shade) 56%,
+    #101221 100%
+  );
+}
+
+.player-bubble {
+  background: radial-gradient(
+    circle at 35% 28%,
+    color-mix(in srgb, var(--region-accent) 72%, #fff) 0%,
+    var(--region-shade) 56%,
+    #101221 100%
+  );
+}
+
+.enemy-bubble {
+  background: radial-gradient(
+    circle at 35% 28%,
+    var(--region-accent),
+    var(--region-shade) 55%,
+    #101221
+  );
+}
+
+.avatar-bubble .sprite {
+  position: absolute;
+  inset: 7%;
+  width: auto;
+  height: auto;
+  overflow: hidden;
+  border-radius: 50%;
+  background-position: center;
+  background-size: contain;
+  filter: drop-shadow(0 4px 5px #0008);
+}
+
+.avatar-bubble::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: 14%;
+  bottom: 2%;
+  left: 14%;
+  height: 25%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    #071016 0 -2%,
+    #071016e8 6%,
+    #07101644 64%,
+    transparent 88%
+  );
+  pointer-events: none;
+}
+
+.avatar-bubble .dizzy-stars {
+  z-index: 3;
+}
