@@ -530,7 +530,8 @@ h1 {
   font-size: 0.73rem;
 }
 .primary-button,
-.secondary-button {
+.secondary-button,
+.danger-button {
   padding: 11px 16px;
   border-radius: 9px;
   font: 800 0.7rem Orbitron;
@@ -580,6 +581,15 @@ h1 {
 .result-modal > p:not(.eyebrow) {
   color: var(--muted);
   line-height: 1.55;
+}
+.danger-button {
+  border: 1px solid #ff5d77;
+  color: #fff;
+  background: #8f2039;
+}
+
+.danger-button:hover {
+  background: #b92d4b;
 }
 .result-actions {
   display: flex;
