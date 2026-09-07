@@ -334,6 +334,7 @@
   function setPlayerStun() {
     playerStunned = true;
     playerBubble.classList.add("stunned");
+    playerRune.classList.add("stunned");
     playerState.textContent = "Dizzy! Recovering for 2 seconds...";
     playerSpeech.textContent = "Stars...everywhere...";
     window.clearTimeout(playerStunTimer);
@@ -341,6 +342,7 @@
       if (finished) return;
       playerStunned = false;
       playerBubble.classList.remove("stunned");
+      playerRune.classList.remove("stunned");
       playerState.textContent = "Recovered. Keep typing.";
       playerSpeech.textContent = "Back in the fight.";
       typingInput.focus();
