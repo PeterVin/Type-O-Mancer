@@ -18,8 +18,10 @@
   const enemySpeech = $("#enemySpeech");
   const typingInput = $("#typingInput");
 
-  const KEY_SOUND = "audio/mixkit-hard-single-key-press-in-a-laptop-2542.wav";
-  const KEY_FAIL_SOUND = "audio/mixkit-single-key-type-2533.wav";
+  const KEY_SOUND = new Audio(
+    "audio/mixkit-hard-single-key-press-in-a-laptop-2542.wav",
+  );
+  const KEY_FAIL_SOUND = new Audio("audio/mixkit-single-key-type-2533.wav");
   const WIN_SOUND = "audio/mixkit-successful-horns-fanfare-722.wav";
   const DEFEAT_SOUND = "audio/mixkit-slow-sad-trombone-fail-472.wav";
   const FINAL_STAGE_INDEX = STAGES.length - 1;
@@ -51,6 +53,11 @@
     soundEnabled = true;
 
   let winScores = readWinScores();
+
+  [KEY_SOUND, KEY_FAIL_SOUND].forEach((sound) => {
+    sound.preload = "auto";
+    sound.load();
+  });
 
   const savedProgress = Number.parseInt(
     localStorage.getItem(STORAGE_KEYS.progress),
@@ -87,13 +94,23 @@
     sound.play().catch(() => {});
   }
 
+  function playPreparedAudio(sound, volume = 0.72, playbackRate = 1) {
+    if (!soundEnabled) return;
+
+    sound.volume = volume;
+    sound.playbackRate = playbackRate;
+    sound.pause();
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+  }
+
   function playKeySound() {
     const randomRate = 0.95 + Math.random() * 0.1;
-    playAudio(KEY_SOUND, 0.62, randomRate);
+    playPreparedAudio(KEY_SOUND, 0.62, randomRate);
   }
 
   function playKeyFailSound() {
-    playAudio(KEY_FAIL_SOUND, 0.72, 0.9);
+    playPreparedAudio(KEY_FAIL_SOUND, 0.72, 0.9);
   }
 
   function playWinSound() {
